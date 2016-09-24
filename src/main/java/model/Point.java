@@ -11,10 +11,21 @@ public class Point
 		this.y = inY;
 	}
 
-	@Override
 	public boolean equals(Object o){
 	
+		if( ! ( o instanceof Point ) ){
+			return false;
+		}
+		Point inPoint = (Point) o;
+		if ( this.x == inPoint.x && this.y == inPoint.y){
+			return true;
+		}
+		
 		return false;
+	}
+	
+	public String toString(){
+		return "X: " + x + ", Y: " + y;
 	}
 	
 	public int getX()
