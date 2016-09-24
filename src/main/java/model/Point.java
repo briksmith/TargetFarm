@@ -11,6 +11,12 @@ public class Point
 		this.y = inY;
 	}
 
+	@Override
+	public boolean equals(Object o){
+	
+		return false;
+	}
+	
 	public int getX()
 	{
 		return x;
