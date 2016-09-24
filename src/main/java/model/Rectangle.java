@@ -28,6 +28,31 @@ public class Rectangle
 		}
 		return false;
 	}
+	
+	public boolean equals(Object o){
+		
+		if ( !( o instanceof Rectangle) ){
+			return false;
+		}
+		
+		Rectangle inRect = (Rectangle) o;
+		
+		if( checkLowerLeftPoint(inRect) && checkUpperRightPoint(inRect)){
+			return true;
+		}
+		
+		return false;
+	}
+
+	private boolean checkLowerLeftPoint(Rectangle inRect)
+	{
+		return this.lowerLeftPoint.equals(inRect.lowerLeftPoint);
+	}
+
+	private boolean checkUpperRightPoint(Rectangle inRect)
+	{
+		return this.upperRightPoint.equals(inRect.upperRightPoint);
+	}
 
 	private boolean checkIfInPointXValueIsWithinRectangle(Point inPoint)
 	{

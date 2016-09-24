@@ -9,6 +9,10 @@ import org.junit.Test;
 public class RectangleTest
 {
 
+	private final Point rect1LowerLeft = new Point(2, 4);
+	private final Point rect1UpperRight = new Point(5, 10);
+	private final Rectangle testRectangle = new Rectangle(rect1LowerLeft, rect1UpperRight);
+	
 	@Before
 	public void setUp()
 	{
@@ -53,7 +57,8 @@ public class RectangleTest
 
 		Rectangle rectangle = new Rectangle(lowerLeft, upperRight);
 
-		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointInside, rectangle), rectangle.Contains(testPointInside));
+		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointInside, rectangle),
+				rectangle.Contains(testPointInside));
 
 	}
 
@@ -62,52 +67,57 @@ public class RectangleTest
 		return "Point: " + testPointInside.toString() + " should have been found in Rectangle: " + rectangle.toString()
 				+ " and was not.";
 	}
-	
+
 	@Test
 	public void testContainsBottomEdgePoint()
 	{
 		Point testPointOnBottomEdge = new Point(2, 0);
-		Point lowerLeft = new Point(0,0);
+		Point lowerLeft = new Point(0, 0);
 		Point upperRight = new Point(4, 6);
-		
+
 		Rectangle rectangle = new Rectangle(lowerLeft, upperRight);
-		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnBottomEdge, rectangle), rectangle.Contains(testPointOnBottomEdge));
-		
+		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnBottomEdge, rectangle),
+				rectangle.Contains(testPointOnBottomEdge));
+
 	}
-	
+
 	@Test
 	public void testContainsRightEdgePoint()
 	{
 		Point testPointOnRightEdge = new Point(4, 2);
-		Point lowerLeft = new Point(0,0);
+		Point lowerLeft = new Point(0, 0);
 		Point upperRight = new Point(4, 6);
-		
+
 		Rectangle rectangle = new Rectangle(lowerLeft, upperRight);
-		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnRightEdge, rectangle), rectangle.Contains(testPointOnRightEdge));
-		
+		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnRightEdge, rectangle),
+				rectangle.Contains(testPointOnRightEdge));
+
 	}
-	
+
 	@Test
 	public void testContainsTopEdgePoint()
 	{
 		Point testPointOnTopEdge = new Point(2, 6);
-		Point lowerLeft = new Point(0,0);
+		Point lowerLeft = new Point(0, 0);
 		Point upperRight = new Point(4, 6);
-		
+
 		Rectangle rectangle = new Rectangle(lowerLeft, upperRight);
-		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnTopEdge, rectangle), rectangle.Contains(testPointOnTopEdge));
-		
+		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnTopEdge, rectangle),
+				rectangle.Contains(testPointOnTopEdge));
+
 	}
+
 	@Test
 	public void testContainsLeftEdgePoint()
 	{
 		Point testPointOnLeftEdge = new Point(0, 3);
-		Point lowerLeft = new Point(0,0);
+		Point lowerLeft = new Point(0, 0);
 		Point upperRight = new Point(4, 6);
-		
+
 		Rectangle rectangle = new Rectangle(lowerLeft, upperRight);
-		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnLeftEdge, rectangle), rectangle.Contains(testPointOnLeftEdge));
-		
+		assertTrue(pointShouldHaveBeenFoundErrorMessage(testPointOnLeftEdge, rectangle),
+				rectangle.Contains(testPointOnLeftEdge));
+
 	}
 
 	@Test
@@ -122,5 +132,69 @@ public class RectangleTest
 		assertFalse("Point: " + testPointOutside.toString() + " should have not been found in Rectangle: "
 				+ rectangle.toString() + " and was.", rectangle.Contains(testPointOutside));
 
+	}
+
+	@Test
+	public void testEqualsNeitherPointEqual()
+	{
+
+		Point rect2LowerLeft = new Point(10, 8);
+		Point rect2UpperRight = new Point(12, 10);
+
+		Rectangle rect2 = new Rectangle(rect2LowerLeft, rect2UpperRight);
+
+		assertFalse("These rectangles should not be found to be equal and were.  Rect1: " + testRectangle.toString()
+				+ " Rect2: " + rect2.toString(), testRectangle.equals(rect2));
+
+	}
+
+	@Test
+	public void testEqualsLowerLeftPointEqual()
+	{
+
+		Point rect2LowerLeft = new Point(2, 4);
+		Point rect2UpperRight = new Point(12, 10);
+
+		Rectangle rect2 = new Rectangle(rect2LowerLeft, rect2UpperRight);
+
+		assertFalse("These rectangles should not be found to be equal and were.  Rect1: " + testRectangle.toString()
+				+ " Rect2: " + rect2.toString(), testRectangle.equals(rect2));
+
+	}
+
+	@Test
+	public void testEqualsUpperRightPointEqual()
+	{
+
+		Point rect2LowerLeft = new Point(10, 8);
+		Point rect2UpperRight = new Point(5, 10);
+
+		Rectangle rect2 = new Rectangle(rect2LowerLeft, rect2UpperRight);
+
+		assertFalse("These rectangles should not be found to be equal and were.  Rect1: " + testRectangle.toString()
+				+ " Rect2: " + rect2.toString(), testRectangle.equals(rect2));
+
+	}
+
+	@Test
+	public void testEqualsBothPointsEqual()
+	{
+
+		Point rect2LowerLeft = new Point(2, 4);
+		Point rect2UpperRight = new Point(5, 10);
+
+		Rectangle rect2 = new Rectangle(rect2LowerLeft, rect2UpperRight);
+
+		assertTrue("These rectangles should  be found to be equal and were not.  Rect1: " + testRectangle.toString()
+				+ " Rect2: " + rect2.toString(), testRectangle.equals(rect2));
+
+	}
+	
+	@Test
+	public void testEqualsReturnsFalseOnNonRectangleObject()
+	{
+		Object o = new Object();
+		
+		assertFalse("Rectangle and non rectangle should return false.", testRectangle.equals(o));
 	}
 }
