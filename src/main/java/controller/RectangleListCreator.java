@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import model.Point;
 import model.Rectangle;
-import utils.GroupingSymbolRemover;
+import utils.InputScanner;
 
 public class RectangleListCreator
 {
@@ -27,8 +27,8 @@ public class RectangleListCreator
 		try
 		{
 			StringBuilder stringToParse = new StringBuilder(inString);
-			GroupingSymbolRemover.removeGroupingSymbol(stringToParse, BRACES);
-			seperateStringByCommasAndAddToList(stringToParse, rawStrings);
+			InputScanner.removeGroupingSymbol(stringToParse, BRACES);
+			InputScanner.seperateStringByCommasAndAddToList(stringToParse, rawStrings);
 			translateRawStringNumbersToListOfRawIntegerLists(rawStrings, rawNumbers);
 			translateRawIntegersToRectangles(rawNumbers, rectangles);
 		}
@@ -48,10 +48,12 @@ public class RectangleListCreator
 		String stringFromBuilder = stringToParse.toString();
 		String[] numbersInQuotes = stringFromBuilder.split(",");
 		StringBuilder builder = new StringBuilder();
+		String delimiterPattern = "\\w*\"\\d+ \\d+ \\d+ \\d+\"";
 		for (String number : numbersInQuotes)
 		{
+			Scanner scanNumbers = new Scanner(number).useDelimiter(delimiterPattern);
 			builder.append(number);
-			GroupingSymbolRemover.removeGroupingSymbol(builder, QUOTES);
+			InputScanner.removeGroupingSymbol(builder, QUOTES);
 			StringBuilder b = new StringBuilder(builder.toString());
 			rawStrings.add(b);
 			builder.delete(0, builder.length());
@@ -67,7 +69,7 @@ public class RectangleListCreator
 		{
 			list = parseStringToRawPoints(b);
 			rawNumbers.add(list);
-			list.clear();
+			list = new ArrayList<>();;
 		}
 	}
 

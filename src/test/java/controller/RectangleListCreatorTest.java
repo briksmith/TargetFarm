@@ -20,7 +20,7 @@ public class RectangleListCreatorTest
 		Point lowerLeft = new Point(0, 292);
 		Point upperRight = new Point(399, 207);
 		Rectangle expectedRectangle = new Rectangle(lowerLeft, upperRight);
-		List<Rectangle> result = RectangleListCreator.createListOfRectangles("{\"0 292 399 307\"}");
+		List<Rectangle> result = RectangleListCreator.createListOfRectangles("{\"0 292 399 207\"}");
 
 		assertTrue("result should have had one entry in it.  Had: " + result.size(), result.size() == 1);
 		Rectangle actualRectangle = result.get(0);

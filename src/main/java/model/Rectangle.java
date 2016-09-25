@@ -29,7 +29,7 @@ public class Rectangle
 		return false;
 	}
 	
-	public boolean equals(Object o){
+	public boolean equals(Object o){ 
 		
 		if ( !( o instanceof Rectangle) ){
 			return false;
@@ -42,6 +42,10 @@ public class Rectangle
 		}
 		
 		return false;
+	}
+	
+	public String toString() {
+		return lowerLeftPoint.toString() + " " + upperRightPoint.toString();
 	}
 
 	private boolean checkLowerLeftPoint(Rectangle inRect)
