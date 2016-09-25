@@ -20,15 +20,14 @@ public class RectangleListCreator
 	public static List<Rectangle> createListOfRectangles(String inString)
 	{
 
-		List<StringBuilder> rawStrings = new ArrayList<>();
+		List<String> rawStrings = new ArrayList<>();
 		List<List<Integer>> rawNumbers = new ArrayList<>();
 		List<Rectangle> rectangles = new ArrayList<>();
 		System.out.println(inString);
 		try
 		{
-			StringBuilder stringToParse = new StringBuilder(inString);
-			InputScanner.removeGroupingSymbol(stringToParse, BRACES);
-			InputScanner.seperateStringByCommasAndAddToList(stringToParse, rawStrings);
+			inString = InputScanner.removeGroupingSymbol(inString, BRACES);
+			InputScanner.seperateStringByCommasAndAddToList(inString, rawStrings);
 			translateRawStringNumbersToListOfRawIntegerLists(rawStrings, rawNumbers);
 			translateRawIntegersToRectangles(rawNumbers, rectangles);
 		}
@@ -42,30 +41,11 @@ public class RectangleListCreator
 	}
 
 	
-	private static void seperateStringByCommasAndAddToList(StringBuilder stringToParse, List<StringBuilder> rawStrings) throws Exception
-	{
-	
-		String stringFromBuilder = stringToParse.toString();
-		String[] numbersInQuotes = stringFromBuilder.split(",");
-		StringBuilder builder = new StringBuilder();
-		String delimiterPattern = "\\w*\"\\d+ \\d+ \\d+ \\d+\"";
-		for (String number : numbersInQuotes)
-		{
-			Scanner scanNumbers = new Scanner(number).useDelimiter(delimiterPattern);
-			builder.append(number);
-			InputScanner.removeGroupingSymbol(builder, QUOTES);
-			StringBuilder b = new StringBuilder(builder.toString());
-			rawStrings.add(b);
-			builder.delete(0, builder.length());
-		}
-	
-	}
-
-	private static void translateRawStringNumbersToListOfRawIntegerLists(List<StringBuilder> rawStrings,
+	private static void translateRawStringNumbersToListOfRawIntegerLists(List<String> rawStrings,
 			List<List<Integer>> rawNumbers) throws Exception
 	{
 		List<Integer> list = new ArrayList<>();
-		for (StringBuilder b : rawStrings)
+		for (String b : rawStrings)
 		{
 			list = parseStringToRawPoints(b);
 			rawNumbers.add(list);
@@ -73,7 +53,7 @@ public class RectangleListCreator
 		}
 	}
 
-	private static List<Integer> parseStringToRawPoints(StringBuilder b)
+	private static List<Integer> parseStringToRawPoints(String b)
 	{
 		String[] stringNumbers = parseToStringNumbers(b);
 		List<Integer> intNumbers = new ArrayList<>();
@@ -81,10 +61,9 @@ public class RectangleListCreator
 		return intNumbers;
 	}
 
-	private static String[] parseToStringNumbers(StringBuilder b)
+	private static String[] parseToStringNumbers(String inString)
 	{
-		String s = b.toString();
-		String[] numbers = s.split(" ");
+		String[] numbers = inString.split(" ");
 		return numbers;
 	}
 
@@ -108,10 +87,8 @@ public class RectangleListCreator
 			Rectangle rect = new Rectangle(lowerLeft, upperRight);
 			rectangles.add(rect);
 		}
-			
-		
 	}
-
+	
 	private static boolean invalidSize(List<Integer> ints)
 	{
 		return ints.size() != NUM_COORDINATES;

@@ -1,6 +1,11 @@
 package controller;
 
 import java.io.Console;
+import java.util.List;
+
+
+import model.Rectangle;
+
 
 public class Launcher 
 {
@@ -21,7 +26,10 @@ public class Launcher
 	{
 		Console console = System.console();
 		String input = console.readLine();
-		
+		List<Rectangle> rects = RectangleListCreator.createListOfRectangles(input);
+		for ( Rectangle r : rects){
+			System.out.println(r.toString());
+		}
 	}
 
 	private void printContiguousFertileArea()

@@ -9,66 +9,49 @@ public class InputScanner
 {
 	private static final char[] QUOTES = { '"', '"' };
 	 
-	public static void removeGroupingSymbol(StringBuilder inStringBuilder, char[] symbols) throws Exception
+	public static String removeGroupingSymbol(String inString, char[] symbols) throws Exception
 	{
-		if (stringNotEnclosedInEndingSymbols(inStringBuilder, symbols))
+		if (stringNotEnclosedInEndingSymbols(inString, symbols))
 		{
 			throw new Exception(
-					"String " + inStringBuilder.toString() + " must be enclosed in " + symbols[0] + " " + symbols[1]);
+					"String " + inString.toString() + " must be enclosed in " + symbols[0] + " " + symbols[1]);
 		}
-		inStringBuilder.delete(0, 1);
-		inStringBuilder.delete(inStringBuilder.length() - 1, inStringBuilder.length());
+		for ( char c : symbols){
+			inString = inString.replace(c, ' ');
+		}
+		return inString.trim();
 	}
 
-	private static boolean stringNotEnclosedInEndingSymbols(StringBuilder inStringBuilder, char[] symbol)
+	private static boolean stringNotEnclosedInEndingSymbols(String inString, char[] symbol)
 	{
-		inStringBuilder = removeWhiteSpace(inStringBuilder);
-		if (inStringBuilder.charAt(0) != symbol[0] || inStringBuilder.charAt(inStringBuilder.length() - 1) != symbol[1])
+		inString = removeWhiteSpace(inString);
+		if (inString.charAt(0) != symbol[0] || inString.charAt(inString.length() - 1) != symbol[1])
 		{
 			return true;
 		}
 		return false;
 	}
 	
-	private static StringBuilder removeWhiteSpace(StringBuilder inStringBuilder)
+	private static String removeWhiteSpace(String inString)
 	{
-		String s = inStringBuilder.toString();
-		return new StringBuilder(s.trim());
+		return inString.trim();
 		
 	}
 	
-	public static void seperateStringByCommasAndAddToList(StringBuilder stringToParse, List<StringBuilder> rawStrings) throws Exception
+	public static void seperateStringByCommasAndAddToList(String stringToParse, List<String> rawStrings) throws Exception
 	{
 	
-		String stringFromBuilder = stringToParse.toString();
-		String[] numbersInQuotes = stringFromBuilder.split(",");
+		removeGroupingSymbol(stringToParse, QUOTES);
+		String[] numbersInQuotes = stringToParse.split(",");
 		StringBuilder builder = new StringBuilder();
-		String delimiterPattern = "\\d";
-		
-		Scanner scanNumbers = null;
 		for (String number : numbersInQuotes)
 		{
 			number = number.replace("\"", "");
 			number = number.trim();
-			System.out.println(number+"end");
 			builder.append(number);
-			scanNumbers = new Scanner(number);
-			while ( scanNumbers.hasNext()){
-				System.out.println(scanNumbers.next()+"End");
-			}
-			System.out.println(number+"end");
-			
-			rawStrings.add(builder);
+			rawStrings.add(builder.toString());
 			builder = new StringBuilder();
 		}
-		closeScanner(scanNumbers);
 	
-	}
-
-	private static void closeScanner(Scanner scanNumbers)
-	{
-		if( scanNumbers != null){
-			scanNumbers.close();
-		}
 	}
 }

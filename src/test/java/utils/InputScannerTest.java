@@ -19,10 +19,10 @@ public class InputScannerTest
 	{
 		char[] groupingSymbols =
 		{ '[', ']' };
-		StringBuilder testString = new StringBuilder("[sometext]");
+		String testString = new String("[sometext]");
 		String expected = "sometext";
 
-		InputScanner.removeGroupingSymbol(testString, groupingSymbols);
+		testString = InputScanner.removeGroupingSymbol(testString, groupingSymbols);
 
 		assertTrue("testString should have the square brackets stripped off and does not.  testString: " + testString
 				+ " expected: " + expected, expected.equals(testString.toString()));
@@ -33,7 +33,7 @@ public class InputScannerTest
 	{
 		char[] groupingSymbols =
 		{ '[', ']' };
-		StringBuilder testString = new StringBuilder("sometext]");
+		String testString = new String("sometext]");
 		boolean exceptionThrown = false;
 		try
 		{
@@ -49,20 +49,17 @@ public class InputScannerTest
 	@Test
 	public void testSeperateStringByCommasAndAddToList() throws Exception {
 		
-		List<StringBuilder> actualList = new ArrayList<>();
-		List<StringBuilder> expectedList = new ArrayList<>();
-		expectedList.add(new StringBuilder(EXPECTED_1));
-		expectedList.add(new StringBuilder(EXPECTED_2));
-		expectedList.add(new StringBuilder(EXPECTED_3));
-		StringBuilder input = new StringBuilder(TEST_SEPERATE_BY_COMMAS_LIST);
+		List<String> actualList = new ArrayList<>();
+		List<String> expectedList = new ArrayList<>();
+		expectedList.add(EXPECTED_1);
+		expectedList.add(EXPECTED_2);
+		expectedList.add(EXPECTED_3);
 		
-		InputScanner.seperateStringByCommasAndAddToList(input, actualList);
+		InputScanner.seperateStringByCommasAndAddToList(TEST_SEPERATE_BY_COMMAS_LIST, actualList);
 		for (int i = 0; i < actualList.size(); i++){
-			StringBuilder expected = expectedList.get(i);
-			String expectedString = expected.toString();
-			StringBuilder actual = actualList.get(i);
-			String actualString = actual.toString();
-			assertTrue("Expected:" + expected.toString() + "End Actual:" + actual.toString() +"End", expectedString.equals(actualString));
+			String expected = expectedList.get(i);
+			String actual = actualList.get(i);
+			assertTrue("Expected:" + expected.toString() + "End Actual:" + actual.toString() +"End", expected.equals(actual));
 		}
 		
 	}
