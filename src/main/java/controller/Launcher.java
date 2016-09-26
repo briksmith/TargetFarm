@@ -1,14 +1,19 @@
 package controller;
 
 import java.io.Console;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-
+import model.Farm;
 import model.Rectangle;
+import utils.Consts;
 
 
 public class Launcher 
 {
+	private Farm farm;
+	
     public static void main( String[] args )
     {
         Launcher l = new Launcher();
@@ -27,14 +32,34 @@ public class Launcher
 		Console console = System.console();
 		String input = console.readLine();
 		List<Rectangle> rects = RectangleListCreator.createListOfRectangles(input);
-		for ( Rectangle r : rects){
-			System.out.println(r.toString());
-		}
+		BuildFarm(rects);
+	}
+
+	private void BuildFarm(List<Rectangle> rects)
+	{
+		farm = new Farm(Consts.X_DIR, Consts.Y_DIR);
+		farm.setInFertileAreas(rects);
+		
 	}
 
 	private void printContiguousFertileArea()
 	{
-		// TODO Auto-generated method stub
+		List<Integer> infertileArea = farm.calculateFertileAreas();
+		SortInfertileArea(infertileArea);
+		printSortedAreas(infertileArea);
 		
+	}
+
+	private void printSortedAreas(List<Integer> infertileArea)
+	{
+		for ( Integer i : infertileArea){
+			System.out.println(i);
+		}
+		
+	}
+
+	private void SortInfertileArea(List<Integer> infertileArea)
+	{
+		Collections.sort(infertileArea);
 	}
 }
