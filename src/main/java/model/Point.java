@@ -28,6 +28,10 @@ public class Point
 		return "X: " + x + ", Y: " + y;
 	}
 	
+	public int hashCode() {
+		return x * 17 + y * 43;
+	}
+	
 	public int getX()
 	{
 		return x;

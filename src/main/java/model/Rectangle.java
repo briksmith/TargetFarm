@@ -1,5 +1,9 @@
 package model;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
+
 public class Rectangle
 {
 	private Point lowerLeftPoint;
@@ -68,6 +72,20 @@ public class Rectangle
 		return inPoint.getY() >= lowerLeftPoint.getY() && inPoint.getY() <= upperRightPoint.getY();
 	}
 
+	public Set<Point> getSetOfInfertilePoints(){
+		
+		Set<Point> infertilePoints = new HashSet<>();
+		
+		for( int i = lowerLeftPoint.getX(); i <= upperRightPoint.getX(); i++){
+			for ( int j = lowerLeftPoint.getY(); j <= upperRightPoint.getY(); j++){
+				Point pointToAdd = new Point(i,j);
+				infertilePoints.add(pointToAdd);
+			}
+		}
+		
+		return infertilePoints;
+	}
+	
 	public Point getLowerLeftPoint()
 	{
 		return lowerLeftPoint;

@@ -1,7 +1,10 @@
 package model;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -196,5 +199,29 @@ public class RectangleTest
 		Object o = new Object();
 		
 		assertFalse("Rectangle and non rectangle should return false.", testRectangle.equals(o));
+	}
+	
+	@Test
+	public void testGetInfertilePoints()
+	{
+		Set<Point> result = testRectangle.getSetOfInfertilePoints();
+		Point lowerLeft = testRectangle.getLowerLeftPoint();
+		Point upperRight = testRectangle.getUpperRightPoint();
+		int lowerLeftX = lowerLeft.getX();
+		int lowerLeftY = lowerLeft.getY();
+		int upperRightX = upperRight.getX();
+		int upperRightY = upperRight.getY();
+		final int length = upperRightX - lowerLeftX + 1;
+		final int width = upperRightY - lowerLeftY + 1;
+		final int totalPoints = length * width;
+		assertTrue("There should be " + totalPoints + " points as that is the size of the rectangle.  Was: " + result.size(),
+				result.size() == length * width);
+		for ( int i = lowerLeftX; i <= upperRightX; i++ )
+			for ( int j = lowerLeftY; j <= upperRightY; j++){
+				Point testPoint = new Point(i,j);
+				assertTrue("The point " + i + " " + j + " should have been found and wasn't",  result.contains(testPoint) );
+			}
+		
+		
 	}
 }
