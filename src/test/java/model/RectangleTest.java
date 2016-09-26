@@ -4,10 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
+
+
 
 public class RectangleTest
 {
@@ -15,6 +19,26 @@ public class RectangleTest
 	private final Point rect1LowerLeft = new Point(2, 4);
 	private final Point rect1UpperRight = new Point(5, 10);
 	private final Rectangle testRectangle = new Rectangle(rect1LowerLeft, rect1UpperRight);
+	
+	private final Point overLapRectLowerLeft = new Point(3, 6);
+	private final Point overLapRectUpperRight = new Point(4, 12);
+	private final Rectangle overLapRectangle = new Rectangle(overLapRectLowerLeft, overLapRectUpperRight);
+	
+	private class PointInfo {
+		
+		int lowerLeftX;
+		int lowerLeftY;
+		int upperRightX;
+		int upperRightY;
+		
+		PointInfo(Point lowerLeft, Point upperRight){
+			lowerLeftX = lowerLeft.getX();
+			lowerLeftY = lowerLeft.getY();
+			upperRightX = upperRight.getX();
+			upperRightY = upperRight.getY();
+		}
+		
+	}
 	
 	@Before
 	public void setUp()
@@ -207,21 +231,40 @@ public class RectangleTest
 		Set<Point> result = testRectangle.getSetOfInfertilePoints();
 		Point lowerLeft = testRectangle.getLowerLeftPoint();
 		Point upperRight = testRectangle.getUpperRightPoint();
-		int lowerLeftX = lowerLeft.getX();
-		int lowerLeftY = lowerLeft.getY();
-		int upperRightX = upperRight.getX();
-		int upperRightY = upperRight.getY();
-		final int length = upperRightX - lowerLeftX + 1;
-		final int width = upperRightY - lowerLeftY + 1;
+		PointInfo pointInfo = new PointInfo(lowerLeft, upperRight);
+		verifyTotalFoundPoints(pointInfo, result);
+		verifyAllPointsInSet(pointInfo, result);
+	}
+	
+	private void verifyTotalFoundPoints(PointInfo inPointInfo, Set<Point> result)
+	{
+		final int length = inPointInfo.upperRightX - inPointInfo.lowerLeftX + 1;
+		final int width = inPointInfo.upperRightY - inPointInfo.lowerLeftY + 1;
 		final int totalPoints = length * width;
+		
+		
 		assertTrue("There should be " + totalPoints + " points as that is the size of the rectangle.  Was: " + result.size(),
-				result.size() == length * width);
-		for ( int i = lowerLeftX; i <= upperRightX; i++ )
-			for ( int j = lowerLeftY; j <= upperRightY; j++){
+				result.size() == length * width );
+		
+	}
+
+	private void verifyAllPointsInSet(PointInfo inPointInfo, Set<Point> result)
+	{
+		for ( int i = inPointInfo.lowerLeftX; i <= inPointInfo.upperRightX; i++ )
+			for ( int j = inPointInfo.lowerLeftY; j <= inPointInfo.upperRightY; j++){
 				Point testPoint = new Point(i,j);
 				assertTrue("The point " + i + " " + j + " should have been found and wasn't",  result.contains(testPoint) );
 			}
 		
+	}
+
+	@Test
+	public void testGetSetOfInfertilePointsFromList() {
+		
+		List<Rectangle> rects = new ArrayList<>();
+		rects.add(testRectangle);
+		rects.add(testRectangle);
+		Set<Point> inFertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(rects);
 		
 	}
 }

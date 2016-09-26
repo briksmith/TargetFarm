@@ -1,13 +1,17 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Farm
 {
 	private List<ArrayList<FarmPoint>> parcels;
 	
 	private List<Rectangle> inFertileAreas;
+	
+	private Set<Point> inFertilePoints;
 	
 	public  Farm(int x, int y) {
 		
@@ -43,8 +47,44 @@ public class Farm
 		return inFertileAreas;
 	}
 
-	public void setInFertileAreas(List<Rectangle> inFertileAreas)
+	public void setInFertileAreas(List<Rectangle> newInfertileAreas)
 	{
-		this.inFertileAreas = inFertileAreas;
+		this.inFertileAreas = newInfertileAreas;
+		if ( inFertilePoints == null ){
+			inFertilePoints = new HashSet<>();
+			Set<Point> infertilePoints =  Rectangle.getSetOfInfertilePointsForListOfRects(newInfertileAreas);
+			setParcelsToInfertile(infertilePoints);
+		}
+		else {
+			Set<Point> newFertilePoints = getPointsInOldNotInNew(newInfertileAreas);
+			setParcelsToFertile(newFertilePoints);
+			Set<Point> newInfertilePoints = getPointsInNewNotInOld(newInfertileAreas);
+			setParcelsToInfertile(newInfertilePoints);
+		}
+		
+	}
+
+	private void setParcelsToInfertile(Set<Point> InputinfertilePoints)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setParcelsToFertile(Set<Point> newFertilePoints)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	private Set<Point> getPointsInOldNotInNew(List<Rectangle> newInfertileAreas)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Set<Point> getPointsInNewNotInOld(List<Rectangle> newInfertileAreas)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

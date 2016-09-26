@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -84,6 +85,11 @@ public class Rectangle
 		}
 		
 		return infertilePoints;
+	}
+	
+	public static Set<Point> getSetOfInfertilePointsForListOfRects(List<Rectangle> inRects){
+		
+		return null;
 	}
 	
 	public Point getLowerLeftPoint()

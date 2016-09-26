@@ -61,4 +61,27 @@ public class FarmTest
 		assertTrue("each list int the Y direction should have " + Y_DIR + " points.  Was: " + pointsFromParcel.size(),
 				pointsFromParcel.size() == Y_DIR);
 	}
+	
+	@Test
+	public void testAddNewInfertileArea(){
+		
+		Farm farm = new Farm(X_DIR, Y_DIR);
+		
+	}
+	
+	@Test
+	public void testAddNewInfertileAreaToExistingInfertileArea(){
+		
+	}
+	
+	@Test
+	public void testAddNewInfertileAreasOverLapping(){
+		
+	}
+	
+	@Test
+	public void testAddNewInfertileAreasOverLappingToExistingOverlappingInfertileAreas(){
+		
+	}
+	
 }
