@@ -10,6 +10,11 @@ public class Point
 		this.x = inX;
 		this.y = inY;
 	}
+	
+	public Point(Point inPoint) {
+		this.x = inPoint.getX();
+		this.y = inPoint.getY();
+	}
 
 	public boolean equals(Object o){
 	
