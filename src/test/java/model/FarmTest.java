@@ -51,7 +51,6 @@ public class FarmTest
 		for (int i = 0; i < parcels.size(); i++){
 			List<FarmPoint> pointsFromParcel = parcels.get(i);
 			verifyYDirection(pointsFromParcel);
-			System.out.println(i);
 			for ( int j = 0; j < pointsFromParcel.size(); j++){
 				FarmPoint farmPoint = pointsFromParcel.get(j);
 				verifyCordinates(i, j, farmPoint);
@@ -59,7 +58,6 @@ public class FarmTest
 				verifyParcelIndex(farmPoint);
 			}
 	}
-		System.out.println("veified farm");
 	}
 
 	private void verifyParcelIndex(FarmPoint inFarmPoint)
@@ -90,7 +88,35 @@ public class FarmTest
 	@Test
 	public void testAddNewInfertileArea(){
 		
+		systemUnderTest = new Farm(15,15);
+		Rectangle rect1 = new Rectangle(2, 4, 10, 4);
+		Rectangle rect2 = new Rectangle(8, 4, 10, 6);
+		Rectangle rect3 = new Rectangle(2, 8, 10, 10);
+		Rectangle rect4 = new Rectangle(2, 4, 4, 10);
+		List<Rectangle> rects = new ArrayList<Rectangle>();
+		rects.add(rect1);
+		rects.add(rect2);
+		rects.add(rect3);
+		rects.add(rect4);
 		
+		
+		systemUnderTest.setInFertileAreas(rects);
+		List<ArrayList<FarmPoint>> parcels = systemUnderTest.getParcels();
+		for ( Rectangle r : rects){
+		verfiyPoints(r ,parcels);
+		}
+		
+	}
+
+	private void verfiyPoints(Rectangle rect1, List<ArrayList<FarmPoint>> parcels)
+	{
+		Point lowerLeft = rect1.getLowerLeftPoint();
+		Point upperRight = rect1.getUpperRightPoint();
+		for( int i = lowerLeft.getX(); i <=upperRight.getX(); i++){
+			for( int j = lowerLeft.getY(); j <= upperRight.getY(); j++){
+			assertFalse(i + " " + j + " should have been false and was not.", parcels.get(i).get(j).isFertile());
+			}
+		}
 	}
 	
 	@Test
@@ -161,5 +187,25 @@ public class FarmTest
 			Integer actual = plots.get(i);
 			assertTrue("Expected: " + expected + " Actual: " + plots.get(i), expected.equals(actual));
 		} */
+	}
+	
+	@Test
+	public void testForHole(){
+		systemUnderTest = new Farm(11,11);
+		Rectangle rect1 = new Rectangle(2, 4, 10, 4);
+		Rectangle rect2 = new Rectangle(8, 4, 10, 6);
+		Rectangle rect3 = new Rectangle(2, 8, 10, 10);
+		Rectangle rect4 = new Rectangle(2, 4, 4, 10);
+		List<Rectangle> rects = new ArrayList<Rectangle>();
+		rects.add(rect1);
+		rects.add(rect2);
+		rects.add(rect3);
+		rects.add(rect4);
+		
+		systemUnderTest.setInFertileAreas(rects);
+		List<Integer> plots = systemUnderTest.getListOfFertilePlots();
+		for(Integer i : plots){
+			System.out.println(i);
+		}
 	}
 }

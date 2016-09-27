@@ -8,8 +8,6 @@ import java.util.Set;
 
 public class Farm
 {
-	private static final Integer ONE = new Integer(1);
-
 	private List<ArrayList<FarmPoint>> parcels;
 
 	private List<Rectangle> inFertileAreas;
@@ -22,6 +20,7 @@ public class Farm
 	{ -1, 0, 1, 1, 1, 0, -1, -1 };
 	private final int rowCount;
 	private final int colCount;
+	private int parcelCount;
 
 	public Farm(int x, int y)
 	{
@@ -40,7 +39,7 @@ public class Farm
 				pointsToInitalize.add(farmPoint);
 			}
 		}
-		System.out.println("created farm " + parcels.size());
+		parcelCount = 1;
 	}
 
 	public List<Integer> getListOfFertilePlots()
@@ -54,8 +53,7 @@ public class Farm
 				FarmPoint farmPoint = farmPoints.get(j);
 				if (notCountedAndFertile(farmPoint))
 				{
-					int plotSize = 1;
-					plotSize += calculateSizeOfFertilePlot(farmPoint);
+					int plotSize = calculateSizeOfFertilePlot(farmPoint);
 					listOfFertilePlots.add(plotSize);
 				}
 			}
@@ -70,6 +68,7 @@ public class Farm
 		queue.add(farmPoint);
 		while (!queue.isEmpty())
 		{
+			plotSize++;
 			FarmPoint queuedFarmPoint = queue.pop();
 			Point queuedPoint = queuedFarmPoint.getPoint();
 			int row = queuedPoint.getX();
@@ -81,24 +80,15 @@ public class Farm
 				int colNeighbor = getColNeighbor(col, i);
 				if (addNeighborToPlot(rowNeighbor, colNeighbor))
 				{
-					plotSize++;
+					System.out.println(rowNeighbor + " " + colNeighbor);
 					FarmPoint farmPointToQueue = parcels.get(rowNeighbor).get(colNeighbor);
 					farmPointToQueue.setVisited(true);
-					
 					queue.add(farmPointToQueue);
 				}
 			}
 		}
+		System.out.println("Plotsize: " + plotSize);
 		return plotSize;
-	}
-
-	private void setParcelsPointToVisitedPoint(FarmPoint queuedFarmPoint)
-	{
-		Point point = queuedFarmPoint.getPoint();
-		int x = point.getX();
-		int y = point.getY();
-		parcels.get(x).set(y, queuedFarmPoint);
-		
 	}
 
 	private int getColNeighbor(int inCol, int i)
