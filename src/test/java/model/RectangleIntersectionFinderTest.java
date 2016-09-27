@@ -2,6 +2,9 @@ package model;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -144,5 +147,28 @@ public class RectangleIntersectionFinderTest
 		points = rect2.getSetOfIntersectingPoints(rect1);
 		assertTrue(points.size() == 0);
 		
+	}
+	
+	@Test
+	public void testCaseStudyIntersection() {
+		Rectangle rect1 = new Rectangle(48,192,351,207);
+		Rectangle rect2 = new Rectangle(48, 392, 351, 407);
+		Rectangle rect3 = new Rectangle(120, 52, 135, 547);
+		Rectangle rect4 = new Rectangle(260, 52, 275, 547);
+		
+		List<Rectangle> rectangles = new ArrayList<>();
+		rectangles.add(rect1);
+		rectangles.add(rect2);
+		rectangles.add(rect3);
+		rectangles.add(rect4);
+		Set<Point> points = new HashSet<>();
+		for ( int i = 0; i < rectangles.size() - 1; i++){
+			for( int j = i + 1; j < rectangles.size(); j++){
+				points.addAll(RectangleIntersectionFinder.findIntersectionOfEdges(rectangles.get(i), rectangles.get(j)));
+			}
+		}
+		for ( Point p : points){
+		System.out.println(p.toString());
+		}
 	}
 }
