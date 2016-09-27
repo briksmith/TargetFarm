@@ -11,7 +11,13 @@ public class Rectangle
 	private Point upperLeftPoint;
 	private Point upperRightPoint;
 	private Point lowerRightPoint;
-
+	
+	private List<Point> leftEdgeSet;
+	private List<Point> rightEdgeSet;
+	private List<Point> bottomEdgeSet;
+	private List<Point> topEdgeSet;
+	private List<List<Point>> edgeSetList = new ArrayList<List<Point>>();
+	
 	public Rectangle(Point inLowerLeftPoint, Point inUpperRightPoint)
 	{
 
@@ -20,6 +26,7 @@ public class Rectangle
 		
 		this.upperLeftPoint = new Point(inLowerLeftPoint.getX(), inUpperRightPoint.getY());
 		this.lowerRightPoint = new Point(inUpperRightPoint.getX(), inLowerLeftPoint.getY());
+		createEdgeSets();
 	}
 	
 	public Rectangle( int lowerLeftX, int lowerLeftY, int upperLeftX, int upperRightY){
@@ -29,6 +36,26 @@ public class Rectangle
 		
 		this.upperLeftPoint = new Point(lowerLeftPoint.getX(), upperRightPoint.getY());
 		this.lowerRightPoint = new Point(upperRightPoint.getX(), lowerLeftPoint.getY());
+		createEdgeSets();
+	}
+
+	private void createEdgeSets()
+	{
+		leftEdgeSet = createEdgeSet(lowerLeftPoint, upperLeftPoint);
+		rightEdgeSet = createEdgeSet(lowerRightPoint, upperRightPoint);
+		topEdgeSet = createEdgeSet(upperLeftPoint, upperRightPoint);
+		bottomEdgeSet = createEdgeSet(lowerLeftPoint, lowerRightPoint);
+		addEdgeSetsToList();
+	
+		
+	}
+
+	private void addEdgeSetsToList()
+	{
+		edgeSetList.add(leftEdgeSet);
+		edgeSetList.add(rightEdgeSet);
+		edgeSetList.add(bottomEdgeSet);
+		edgeSetList.add(topEdgeSet);
 	}
 
 	private Point DefensiveCopyOfPoint(Point inPoint)
@@ -36,6 +63,63 @@ public class Rectangle
 		int xValue = inPoint.getX();
 		int yValue = inPoint.getY();
 		return new Point(xValue, yValue);
+	}
+	
+	private static List<Point> createEdgeSet( Point inPoint1, Point inPoint2)
+	{
+		Point pointToIncrement = new Point(inPoint1);
+		List<Point> edgeSet = new ArrayList<>();
+		boolean changeXValue = shouldChangeXValue(inPoint1, inPoint2);
+		int distance = calculateDistance(inPoint1, inPoint2, changeXValue);
+		int sign = distance > 0 ? 1 : -1;
+		
+		for ( int i = 0; i <= distance; i++) {
+				edgeSet.add(new Point(pointToIncrement));
+				incrementCordinateToWalk(changeXValue, sign, pointToIncrement);
+			}
+			return edgeSet;
+	}
+
+	public static boolean shouldChangeXValue(Point inPoint1, Point inPoint2)
+	{
+		if ( inPoint1.getX() != inPoint2.getX()) {
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
+
+	public static int calculateDistance(Point inPoint1, Point inPoint2, boolean changeXValue)
+	{
+		int distance = 0;
+		if ( changeXValue) {
+			distance = ( inPoint2.getX() - inPoint1.getX() );
+		}else
+		{
+			distance = ( inPoint2.getY() - inPoint1.getY() );
+		}
+		return distance;
+	}
+	
+	private static int getCordinateToWalk(Point inPoint, boolean inChangeXValue)
+	{
+		if ( inChangeXValue){
+			return inPoint.getX();
+		}else{
+			return inPoint.getY();
+		}
+	}
+	
+	private static void incrementCordinateToWalk(boolean isX, int stepValue, Point pointToCheck)
+	{
+		int cordinate = getCordinateToWalk(pointToCheck, isX);
+		cordinate += stepValue;
+		if ( isX){
+			pointToCheck.setX(cordinate);
+		}else{
+			pointToCheck.setY(cordinate);
+		}
 	}
 
 	public boolean Contains(Point inPoint)
@@ -155,16 +239,6 @@ public class Rectangle
 		return returnFirstAndLastValue(points);
 	}
 
-	private boolean shouldChangeXValue(Point inPoint1, Point inPoint2)
-	{
-		if ( inPoint1.getX() != inPoint2.getX()) {
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-
 	private int getStepValue(Point inPoint1, Point inPoint2, boolean changeXValue)
 	{
 		int direction;
@@ -184,25 +258,6 @@ public class Rectangle
 		return direction;
 	}
 
-	private int getCordinateToWalk(Point inPoint, boolean inChangeXValue)
-	{
-		if ( inChangeXValue){
-			return inPoint.getX();
-		}else{
-			return inPoint.getY();
-		}
-	}
-
-	private void incrementCordinateToWalk(boolean isX, int stepValue, Point pointToCheck)
-	{
-		int cordinate = getCordinateToWalk(pointToCheck, isX);
-		cordinate += stepValue;
-		if ( isX){
-			pointToCheck.setX(cordinate);
-		}else{
-			pointToCheck.setY(cordinate);
-		}
-	}
 
 	private List<Point> returnFirstAndLastValue(List<Point> points)
 	{
@@ -219,7 +274,7 @@ public class Rectangle
 
 	public Point getLowerLeftPoint()
 	{
-		return lowerLeftPoint;
+		return new Point(lowerLeftPoint);
 	}
 
 	public void setLowerLeftPoint(Point lowerLeftPoint)
@@ -229,7 +284,7 @@ public class Rectangle
 
 	public Point getUpperRightPoint()
 	{
-		return upperRightPoint;
+		return new Point(upperRightPoint);
 	}
 
 	public void setUpperRightPoint(Point upperRightPoint)
@@ -252,4 +307,20 @@ public class Rectangle
 	{
 		return  ( upperRightPoint.getX() - lowerLeftPoint.getX() ) + 1;
 	}
+
+	public Point getUpperLeftPoint()
+	{
+		return new Point(upperLeftPoint);
+	}
+
+	public Point getLowerRightPoint()
+	{
+		return new Point(lowerRightPoint);
+	}
+
+	public List<List<Point>> getEdgeSetList()
+	{
+		return edgeSetList;
+	}
+
 }
