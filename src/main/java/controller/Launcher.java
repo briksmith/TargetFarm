@@ -44,7 +44,7 @@ public class Launcher
 
 	private void printContiguousFertileArea()
 	{
-		List<Integer> infertileArea = farm.calculateFertileAreas();
+		List<Integer> infertileArea = farm.getListOfFertilePlots();
 		SortInfertileArea(infertileArea);
 		printSortedAreas(infertileArea);
 		
