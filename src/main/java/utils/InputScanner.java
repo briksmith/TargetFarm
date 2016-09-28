@@ -1,14 +1,9 @@
 package utils;
 
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class InputScanner
 {
-	private static final char[] QUOTES = { '"', '"' };
-	 
 	public static String removeGroupingSymbol(String inString, char[] symbols) throws Exception
 	{
 		if (stringNotEnclosedInEndingSymbols(inString, symbols))
@@ -41,7 +36,6 @@ public class InputScanner
 	public static void seperateStringByCommasAndAddToList(String stringToParse, List<String> rawStrings) throws Exception
 	{
 	
-		removeGroupingSymbol(stringToParse, QUOTES);
 		String[] numbersInQuotes = stringToParse.split(",");
 		StringBuilder builder = new StringBuilder();
 		for (String number : numbersInQuotes)

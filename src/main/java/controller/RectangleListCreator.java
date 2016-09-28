@@ -3,17 +3,15 @@ package controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import model.Point;
 import model.Rectangle;
+import utils.Consts;
 import utils.InputScanner;
 
 public class RectangleListCreator
 {
 	private static final int NUM_COORDINATES = 4;
-	private static final char[] BRACES =
-	{ '{', '}' };
 
 	public static List<Rectangle> createListOfRectangles(String inString)
 	{
@@ -23,7 +21,8 @@ public class RectangleListCreator
 		List<Rectangle> rectangles = new ArrayList<>();
 		try
 		{
-			inString = InputScanner.removeGroupingSymbol(inString, BRACES);
+			inString = InputScanner.removeGroupingSymbol(inString, Consts.BRACES);
+			inString = InputScanner.removeGroupingSymbol(inString, Consts.QUOTES);
 			InputScanner.seperateStringByCommasAndAddToList(inString, rawStrings);
 			translateRawStringNumbersToListOfRawIntegerLists(rawStrings, rawNumbers);
 			translateRawIntegersToRectangles(rawNumbers, rectangles);

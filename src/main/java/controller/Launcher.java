@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.Console;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,7 +38,6 @@ public class Launcher
 	{
 		farm = new Farm(Consts.X_DIR, Consts.Y_DIR);
 		farm.setInFertileAreas(rects);
-		
 	}
 
 	private void printContiguousFertileArea()
@@ -47,7 +45,11 @@ public class Launcher
 		List<Integer> infertileArea = farm.getListOfFertilePlots();
 		SortInfertileArea(infertileArea);
 		printSortedAreas(infertileArea);
-		
+	}
+
+	private void SortInfertileArea(List<Integer> infertileArea)
+	{
+		Collections.sort(infertileArea);
 	}
 
 	private void printSortedAreas(List<Integer> infertileArea)
@@ -55,11 +57,5 @@ public class Launcher
 		for ( Integer i : infertileArea){
 			System.out.println(i);
 		}
-		
-	}
-
-	private void SortInfertileArea(List<Integer> infertileArea)
-	{
-		Collections.sort(infertileArea);
 	}
 }

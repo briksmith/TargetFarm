@@ -1,7 +1,5 @@
 package model;
 
-import utils.Consts;
-
 public class FarmPoint
 {
 	private Point point;

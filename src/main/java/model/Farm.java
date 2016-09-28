@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import utils.FileUtils;
-
 public class Farm
 {
 	private List<ArrayList<FarmPoint>> parcels;
@@ -32,12 +30,12 @@ public class Farm
 		for (int i = 0; i < x; i++)
 		{
 			parcels.add(new ArrayList<>());
-			List<FarmPoint> pointsToInitalize = parcels.get(i);
+			List<FarmPoint> farmPoints = parcels.get(i);
 			for (int j = 0; j < y; j++)
 			{
 				Point point = new Point(i, j);
 				FarmPoint farmPoint = new FarmPoint(point);
-				pointsToInitalize.add(farmPoint);
+				farmPoints.add(farmPoint);
 			}
 		}
 	}
@@ -59,6 +57,11 @@ public class Farm
 			}
 		}
 		return listOfFertilePlots;
+	}
+
+	private boolean notCountedAndFertile(FarmPoint farmPoint)
+	{
+		return farmPoint.isFertile() && !farmPoint.isVisited();
 	}
 
 	private int calculateSizeOfFertilePlot(FarmPoint farmPoint)
@@ -91,14 +94,14 @@ public class Farm
 		return plotSize;
 	}
 
-	private int getColNeighbor(int inCol, int i)
-	{
-		return inCol + colStep[i];
-	}
-
 	private int getRowNeighbor(int inRow, int i)
 	{
 		return inRow + rowStep[i];
+	}
+
+	private int getColNeighbor(int inCol, int i)
+	{
+		return inCol + colStep[i];
 	}
 
 	private boolean addNeighborToPlot(int i, int j)
@@ -113,7 +116,7 @@ public class Farm
 
 	private boolean checkIndexRanges(int i, int j)
 	{
-		return checkRangeBelow(i, j) && checkRangeAbove(i, j);
+		return checkRangeAbove(i, j) && checkRangeBelow(i, j);
 
 	}
 
@@ -125,11 +128,6 @@ public class Farm
 	private boolean checkRangeBelow(int i, int j)
 	{
 		return i >= 0 && j >= 0;
-	}
-
-	private boolean notCountedAndFertile(FarmPoint farmPoint)
-	{
-		return farmPoint.isFertile() && !farmPoint.isVisited();
 	}
 
 	public List<ArrayList<FarmPoint>> getParcels()

@@ -16,8 +16,6 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
-import utils.Consts;
-import utils.FileUtils;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Farm.class)
