@@ -84,7 +84,7 @@ public class Launcher
 	private void BuildFarm(List<Rectangle> rects)
 	{
 		farm = new Farm(Consts.X_DIR, Consts.Y_DIR);
-		farm.setInFertileAreas(rects);
+		farm.setInfertileAreas(rects);
 	}
 
 	private void printContiguousFertileArea()

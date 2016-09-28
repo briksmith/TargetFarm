@@ -4,15 +4,10 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
-import model.Farm;
-import model.Point;
 
 
 /**
@@ -23,11 +18,6 @@ public class LauncherTest
 {
 	
 	Launcher systemUnderTest;
-	@Mock
-	Farm farm;
-	
-	@Mock
-	Set<Point> mockSet;
 	
 	@Before
 	public void setUp() {

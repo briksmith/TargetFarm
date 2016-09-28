@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class InputScannerTest
 {
-	private static final String TEST_SEPERATE_BY_COMMAS_LIST = "   \"45 98 230 100\", \"43 98 50 100\", \"99 2 111 12\"";
+	private static final String TEST_SEPERATE_BY_COMMAS_LIST = "   45 98 230 100, 43 98 50 100, 99 2 111 12";
 	private static final String EXPECTED_1= "45 98 230 100";
 	private static final String EXPECTED_2 = "43 98 50 100";
 	private static final String EXPECTED_3 = "99 2 111 12";

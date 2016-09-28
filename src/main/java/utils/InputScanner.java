@@ -40,7 +40,6 @@ public class InputScanner
 		StringBuilder builder = new StringBuilder();
 		for (String number : numbersInQuotes)
 		{
-			number = number.replace("\"", "");
 			number = number.trim();
 			builder.append(number);
 			rawStrings.add(builder.toString());

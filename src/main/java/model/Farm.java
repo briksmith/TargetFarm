@@ -15,9 +15,9 @@ public class Farm
 	private Set<Point> inFertilePoints;
 
 	int[] rowStep =
-	{ 1, 1, 1, 0, -1, -1, -1,  0 };
+	{ 1, 1, 1, 0, -1, -1, -1, 0 };
 	int[] colStep =
-	{-1, 0, 1, 1,  1,  0, -1, -1 };
+	{ -1, 0, 1, 1, 1, 0, -1, -1 };
 	private final int rowCount;
 	private final int colCount;
 
@@ -145,22 +145,15 @@ public class Farm
 		return inFertileAreas;
 	}
 
-	public void setInFertileAreas(List<Rectangle> newInfertileAreas)
+	public void setInfertileAreas(List<Rectangle> newInfertileAreas)
 	{
 		this.inFertileAreas = newInfertileAreas;
 		if (inFertilePoints == null)
 		{
 			inFertilePoints = new HashSet<>();
-			inFertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(newInfertileAreas);
-			setParcelsToInfertile(inFertilePoints);
 		}
-		else
-		{
-			Set<Point> newFertilePoints = getPointsInOldNotInNew(newInfertileAreas);
-			setParcelsToFertile(newFertilePoints);
-			Set<Point> newInfertilePoints = getPointsInNewNotInOld(newInfertileAreas);
-			setParcelsToInfertile(newInfertilePoints);
-		}
+		inFertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(newInfertileAreas);
+		setParcelsToInfertile(inFertilePoints);
 
 	}
 
@@ -181,23 +174,6 @@ public class Farm
 		farmPoint.setFertile(false);
 	}
 
-	private void setParcelsToFertile(Set<Point> newFertilePoints)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	private Set<Point> getPointsInOldNotInNew(List<Rectangle> newInfertileAreas)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private Set<Point> getPointsInNewNotInOld(List<Rectangle> newInfertileAreas)
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public Set<Point> getInFertilePoints()
 	{
