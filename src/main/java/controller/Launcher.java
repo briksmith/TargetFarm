@@ -3,10 +3,13 @@ package controller;
 import java.io.Console;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import model.Farm;
+import model.Point;
 import model.Rectangle;
 import utils.Consts;
+import utils.DataValidator;
 
 public class Launcher
 {
@@ -33,12 +36,14 @@ public class Launcher
 
 	private void findFertileArea()
 	{
-	//	boolean run = true;
 		do
 		{
-			if ( readBarrenLandCordinates() ){
+			if (readBarrenLandCordinates())
+			{
 				printContiguousFertileArea();
-			}else{
+			}
+			else
+			{
 				break;
 			}
 		}
@@ -84,9 +89,40 @@ public class Launcher
 
 	private void printContiguousFertileArea()
 	{
-		List<Integer> infertileArea = farm.getListOfFertilePlots();
-		SortInfertileArea(infertileArea);
-		printSortedAreas(infertileArea);
+		List<Integer> fertileArea = farm.getListOfFertilePlots();
+		checkAnswer(fertileArea);
+		SortInfertileArea(fertileArea);
+		printSortedAreas(fertileArea);
+	}
+
+	private void checkAnswer(List<Integer> fertileArea)
+	{
+		int numberOfInfertilePoints = getTotalOfInfertilePoints();
+		int totalFertileArea = totalFertileAreas(fertileArea);
+		if ( !DataValidator.ValidateSummation(Consts.TOTAL_FARM_AREA, numberOfInfertilePoints, totalFertileArea))
+		{
+			System.out.println("Warning:  Infertile points + fertile points does not equal total area.");
+			System.out.println(Consts.TOTAL_FARM_AREA);
+			System.out.println("numberOfInfertilePoints " + numberOfInfertilePoints + " totalFertileArea " + totalFertileArea);
+		}
+
+	}
+
+	private int getTotalOfInfertilePoints()
+	{
+		Set<Point> setOfInfertilePoints = farm.getInFertilePoints();
+		int numberOfInfertilePoints = setOfInfertilePoints.size();
+		return numberOfInfertilePoints;
+	}
+
+	public int totalFertileAreas(List<Integer> fertileArea)
+	{
+		int totalFertileArea = 0;
+		for (Integer i : fertileArea)
+		{
+			totalFertileArea += i.intValue();
+		}
+		return totalFertileArea;
 	}
 
 	private void SortInfertileArea(List<Integer> infertileArea)

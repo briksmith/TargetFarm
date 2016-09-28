@@ -151,8 +151,8 @@ public class Farm
 		if (inFertilePoints == null)
 		{
 			inFertilePoints = new HashSet<>();
-			Set<Point> infertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(newInfertileAreas);
-			setParcelsToInfertile(infertilePoints);
+			inFertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(newInfertileAreas);
+			setParcelsToInfertile(inFertilePoints);
 		}
 		else
 		{
@@ -198,4 +198,10 @@ public class Farm
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public Set<Point> getInFertilePoints()
+	{
+		return inFertilePoints;
+	}
+
 }

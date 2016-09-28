@@ -7,6 +7,7 @@ public class Consts
 	
 	public static final int X_DIR = 400;
 	public static final int Y_DIR = 600;
+	public static final int TOTAL_FARM_AREA = X_DIR * Y_DIR;
 	public static final char[] QUOTES = { '"', '"' };
 	public static final char[] BRACES = { '{', '}' };
 }
