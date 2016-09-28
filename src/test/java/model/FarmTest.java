@@ -17,6 +17,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.powermock.reflect.Whitebox;
 
 import utils.Consts;
+import utils.FileUtils;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(Farm.class)
@@ -43,7 +44,6 @@ public class FarmTest
 	public void testFarmFactory()
 	{
 
-
 		List<ArrayList<FarmPoint>> parcels = systemUnderTest.getParcels();
 
 		int xValue = parcels.size();
@@ -55,15 +55,8 @@ public class FarmTest
 				FarmPoint farmPoint = pointsFromParcel.get(j);
 				verifyCordinates(i, j, farmPoint);
 				verifyFertile(farmPoint);
-				verifyParcelIndex(farmPoint);
 			}
 	}
-	}
-
-	private void verifyParcelIndex(FarmPoint inFarmPoint)
-	{
-		int parcel = inFarmPoint.getParcel();
-		assertTrue("each point should be initialized to unassigned parcel index.  Was: " + parcel, parcel == Consts.UNASSIGNED_PARCEL_INDEX);
 	}
 
 	private void verifyFertile(FarmPoint inFarmPoint)
@@ -106,6 +99,37 @@ public class FarmTest
 		verfiyPoints(r ,parcels);
 		}
 		
+	}
+	
+	@Test
+	public void testAddNewInfertileAreaTargetTestCase2(){
+		
+		systemUnderTest = new Farm(400,600);
+		Rectangle rect1 = new Rectangle(48, 192, 351, 207);
+		Rectangle rect2 = new Rectangle(48, 392, 351, 407);
+		Rectangle rect3 = new Rectangle(120, 52, 135, 547);
+		Rectangle rect4 = new Rectangle(260, 52, 275, 547);
+		List<Rectangle> rects = new ArrayList<Rectangle>();
+		rects.add(rect1);
+		rects.add(rect2);
+		rects.add(rect3);
+		rects.add(rect4);
+		
+		
+		systemUnderTest.setInFertileAreas(rects);
+		List<ArrayList<FarmPoint>> parcels = systemUnderTest.getParcels();
+		
+		for ( Rectangle r : rects){
+		verfiyPoints(r ,parcels);
+		}
+		List<Point> points = new ArrayList<>();
+		for( int i = 0; i < parcels.size(); i++){
+			for ( int j = 0; j < parcels.get(i).size(); j++){
+				if ( ! parcels.get(i).get(j).isFertile() )
+				{Point p = new Point(i,j);
+				points.add(p);}
+			}
+		}
 	}
 
 	private void verfiyPoints(Rectangle rect1, List<ArrayList<FarmPoint>> parcels)
@@ -192,10 +216,10 @@ public class FarmTest
 	@Test
 	public void testForHole(){
 		systemUnderTest = new Farm(11,11);
-		Rectangle rect1 = new Rectangle(2, 4, 10, 4);
-		Rectangle rect2 = new Rectangle(8, 4, 10, 6);
-		Rectangle rect3 = new Rectangle(2, 8, 10, 10);
-		Rectangle rect4 = new Rectangle(2, 4, 4, 10);
+		Rectangle rect1 = new Rectangle(2, 1, 3, 6);
+		Rectangle rect2 = new Rectangle(2, 5, 7, 6);
+		Rectangle rect3 = new Rectangle(6, 1, 7, 6);
+		Rectangle rect4 = new Rectangle(2, 1, 7, 2);
 		List<Rectangle> rects = new ArrayList<Rectangle>();
 		rects.add(rect1);
 		rects.add(rect2);

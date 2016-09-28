@@ -14,8 +14,6 @@ public class RectangleListCreator
 	private static final int NUM_COORDINATES = 4;
 	private static final char[] BRACES =
 	{ '{', '}' };
-	private static final char[] QUOTES =
-	{ '"', '"' };
 
 	public static List<Rectangle> createListOfRectangles(String inString)
 	{
@@ -23,7 +21,6 @@ public class RectangleListCreator
 		List<String> rawStrings = new ArrayList<>();
 		List<List<Integer>> rawNumbers = new ArrayList<>();
 		List<Rectangle> rectangles = new ArrayList<>();
-		System.out.println(inString);
 		try
 		{
 			inString = InputScanner.removeGroupingSymbol(inString, BRACES);

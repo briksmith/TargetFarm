@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import utils.FileUtils;
+
 public class Farm
 {
 	private List<ArrayList<FarmPoint>> parcels;
@@ -15,12 +17,11 @@ public class Farm
 	private Set<Point> inFertilePoints;
 
 	int[] rowStep =
-	{ 1, 1, 1, 0, -1, -1, -1, 0 };
+	{ 1, 1, 1, 0, -1, -1, -1,  0 };
 	int[] colStep =
-	{ -1, 0, 1, 1, 1, 0, -1, -1 };
+	{-1, 0, 1, 1,  1,  0, -1, -1 };
 	private final int rowCount;
 	private final int colCount;
-	private int parcelCount;
 
 	public Farm(int x, int y)
 	{
@@ -39,7 +40,6 @@ public class Farm
 				pointsToInitalize.add(farmPoint);
 			}
 		}
-		parcelCount = 1;
 	}
 
 	public List<Integer> getListOfFertilePlots()
@@ -64,6 +64,7 @@ public class Farm
 	private int calculateSizeOfFertilePlot(FarmPoint farmPoint)
 	{
 		int plotSize = 0;
+		List<Point> points = new ArrayList<>();
 		ArrayDeque<FarmPoint> queue = new ArrayDeque<>();
 		queue.add(farmPoint);
 		while (!queue.isEmpty())
@@ -80,14 +81,13 @@ public class Farm
 				int colNeighbor = getColNeighbor(col, i);
 				if (addNeighborToPlot(rowNeighbor, colNeighbor))
 				{
-					System.out.println(rowNeighbor + " " + colNeighbor);
+					points.add(new Point(rowNeighbor, colNeighbor));
 					FarmPoint farmPointToQueue = parcels.get(rowNeighbor).get(colNeighbor);
 					farmPointToQueue.setVisited(true);
 					queue.add(farmPointToQueue);
 				}
 			}
 		}
-		System.out.println("Plotsize: " + plotSize);
 		return plotSize;
 	}
 

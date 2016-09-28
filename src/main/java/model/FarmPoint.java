@@ -10,13 +10,10 @@ public class FarmPoint
 	
 	private boolean visited;
 	
-	private int parcel;
-	
 	public FarmPoint(Point inPoint){
 		this.point = inPoint;
 		fertile = true;
 		visited = false;
-		parcel = Consts.UNASSIGNED_PARCEL_INDEX;
 	}
 
 	public Point getPoint()
@@ -37,16 +34,6 @@ public class FarmPoint
 	public void setFertile(boolean fertile)
 	{
 		this.fertile = fertile;
-	}
-
-	public int getParcel()
-	{
-		return parcel;
-	}
-
-	public void setParcel(int parcel)
-	{
-		this.parcel = parcel;
 	}
 
 	public boolean isVisited()

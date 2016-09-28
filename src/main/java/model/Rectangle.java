@@ -294,11 +294,11 @@ public class Rectangle
 	
 	public int calcPointsIncludeEdges(){
 		int width = calcWidth();
-		int length = calcLength();
+		int length = calcHeight();
 		return width * length;
 	}
 
-	private int calcLength()
+	private int calcHeight()
 	{
 		return ( upperRightPoint.getY() - lowerLeftPoint.getY()) + 1;
 	}
