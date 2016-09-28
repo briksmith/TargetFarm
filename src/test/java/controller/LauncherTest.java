@@ -1,38 +1,23 @@
 package controller;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import java.io.Console;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+
 
 /**
  * Unit test for simple App.
  */
+@RunWith(PowerMockRunner.class)
+@PrepareForTest(Console.class)
 public class LauncherTest 
-    extends TestCase
+    
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public LauncherTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( LauncherTest.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+    @Test
+    public void test(){
+    	
     }
 }
