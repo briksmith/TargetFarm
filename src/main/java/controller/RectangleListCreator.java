@@ -3,7 +3,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Scanner;
 
 import model.Point;
 import model.Rectangle;

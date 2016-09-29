@@ -66,7 +66,14 @@ public class Farm
 
 	private void setParcelsToInfertile(Set<Point> InputinfertilePoints)
 	{
-		// TODO Auto-generated method stub
+		for ( List<FarmPoint> farmPoints : parcels){
+			for ( FarmPoint farmPoint : farmPoints){
+				Point point = farmPoint.getPoint();
+				if ( InputinfertilePoints.contains(point) ){
+					farmPoint.setFertile(false);
+				}
+			}
+		}
 		
 	}
 
