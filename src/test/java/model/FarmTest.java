@@ -279,4 +279,40 @@ public class FarmTest
 				DataValidator.ValidateSummation(121, numInFertilePoints, totalFertilePoints));
 		verifyPlots(expected, plots);
 	}
+	
+	@Test
+	public void testRectanglesTouchDoNotIntersect(){
+		
+		systemUnderTest = new Farm(20, 20);
+		
+		Rectangle rect1 = new Rectangle(2, 2, 3, 7);
+		Rectangle rect2 = new Rectangle(4,6,8,7);
+		Rectangle rect3 = new Rectangle(9,2,10,7);
+		Rectangle rect4 = new Rectangle(4,2,8,3);
+		List<Rectangle> rects = new ArrayList<>();
+		rects.add(rect1);
+		rects.add(rect2);
+		rects.add(rect3);
+		rects.add(rect4);
+		List<Integer> expected = new ArrayList<>();
+		expected.add(10);
+		expected.add(346);
+		
+		systemUnderTest.setInfertileAreas(rects);
+		Set<Point> infertilePoints = systemUnderTest.getInFertilePoints();
+		List<Integer> plots = systemUnderTest.getListOfFertilePlots();
+		int totalFertilePoints = 0;
+		for (Integer i : plots)
+		{
+			totalFertilePoints += i;
+		}
+		Collections.sort(plots);
+		int numInFertilePoints = infertilePoints.size();
+		assertTrue(
+				"fertile plus inFertile should have equaled total and did not.  Fertile: " + totalFertilePoints
+						+ " inFertilePoints: " + infertilePoints + " total: " + 400,
+				DataValidator.ValidateSummation(400, numInFertilePoints, totalFertilePoints));
+		assertTrue(plots.size() == 2);
+		verifyPlots(expected, plots);
+	}
 }
