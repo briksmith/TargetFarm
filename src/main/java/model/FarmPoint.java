@@ -1,19 +1,17 @@
 package model;
 
-import utils.Consts;
-
 public class FarmPoint
 {
 	private Point point;
 	
 	private boolean fertile;
 	
-	private int parcel;
+	private boolean visited;
 	
 	public FarmPoint(Point inPoint){
 		this.point = inPoint;
 		fertile = true;
-		parcel = Consts.UNASSIGNED_PARCEL_INDEX;
+		visited = false;
 	}
 
 	public Point getPoint()
@@ -36,13 +34,13 @@ public class FarmPoint
 		this.fertile = fertile;
 	}
 
-	public int getParcel()
+	public boolean isVisited()
 	{
-		return parcel;
+		return visited;
 	}
 
-	public void setParcel(int parcel)
+	public void setVisited(boolean visited)
 	{
-		this.parcel = parcel;
+		this.visited = visited;
 	}
 }

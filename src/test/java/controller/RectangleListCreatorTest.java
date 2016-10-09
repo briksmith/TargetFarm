@@ -67,46 +67,17 @@ public class RectangleListCreatorTest
 	}
 
 	@Test
-	public void testErrorOnOneRectangleHaving3Points()
+	public void testErrorOnOneRectangleHavingLessThan4Points()
 	{
-
+		List<Rectangle> rects = RectangleListCreator.createListOfRectangles("{\"43 44 44\"}");
+		assertTrue("Should have gotten an empty list and did not.",  rects.isEmpty());
 	}
 
 	@Test
-	public void testErrorOnOneRectangleHaving5Points()
+	public void testErrorOnOneRectangleHavingGreaterThan4Points()
 	{
-
+		List<Rectangle> rects = RectangleListCreator.createListOfRectangles("{\"43 44 44 33 22\"}");
+		assertTrue("Should have gotten an empty list and did not.",  rects.isEmpty());
 	}
 
-	@Test
-	public void testErrorOnMissingComma()
-	{
-
-	}
-
-	@Test
-	public void testErrorOnMissingStartingQuote()
-	{
-
-	}
-
-	@Test
-	public void testErrorOnMissingEndQuote()
-	{
-
-	}
-
-	@Test
-	public void testErrorOnMissingStartBraces()
-	{
-
-	}
-
-	@Test
-	public void testErrorOnMissingEndBraces()
-	{
-
-	}
-
-	
 }

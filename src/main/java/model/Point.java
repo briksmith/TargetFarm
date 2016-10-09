@@ -1,6 +1,6 @@
 package model;
 
-public class Point
+public class Point implements Comparable
 {
 	private int x;
 	private int y;
@@ -55,5 +55,29 @@ public class Point
 	public void setY(int y)
 	{
 		this.y = y;
+	}
+
+	@Override
+	public int compareTo(Object o)
+	{
+		if ( o instanceof Point){
+			Point toComp = (Point) o;
+			if (this.equals(toComp) ) {
+				return 0;
+			}
+			if ( this.x > toComp.x) {
+				return 1;
+			} 
+			if ( this.x == toComp.x){
+				if ( this.y > toComp.y){
+					return 1;
+				}
+				else{
+					return -1;
+				}
+			}
+			return -1;
+		}
+		return 0;
 	}
 }

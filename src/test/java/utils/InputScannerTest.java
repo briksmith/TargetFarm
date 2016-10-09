@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class InputScannerTest
 {
-	private static final String TEST_SEPERATE_BY_COMMAS_LIST = "   \"45 98 230 100\", \"43 98 50 100\", \"99 2 111 12\"";
+	private static final String TEST_SEPERATE_BY_COMMAS_LIST = "   45 98 230 100, 43 98 50 100, 99 2 111 12";
 	private static final String EXPECTED_1= "45 98 230 100";
 	private static final String EXPECTED_2 = "43 98 50 100";
 	private static final String EXPECTED_3 = "99 2 111 12";
@@ -17,27 +17,23 @@ public class InputScannerTest
 	@Test
 	public void removeGroupingSymbol() throws Exception
 	{
-		char[] groupingSymbols =
-		{ '[', ']' };
-		String testString = new String("[sometext]");
+		String testString = new String("\"sometext\"");
 		String expected = "sometext";
 
-		testString = InputScanner.removeGroupingSymbol(testString, groupingSymbols);
+		testString = InputScanner.removeGroupingSymbol(testString, Consts.QUOTES);
 
-		assertTrue("testString should have the square brackets stripped off and does not.  testString: " + testString
+		assertTrue("testString should have the quotes stripped off and does not.  testString: " + testString
 				+ " expected: " + expected, expected.equals(testString.toString()));
 	}
 
 	@Test
 	public void nonMatchingGroupingSymbol() throws Exception
 	{
-		char[] groupingSymbols =
-		{ '[', ']' };
-		String testString = new String("sometext]");
+		String testString = new String("sometext}");
 		boolean exceptionThrown = false;
 		try
 		{
-			InputScanner.removeGroupingSymbol(testString, groupingSymbols);
+			InputScanner.removeGroupingSymbol(testString, Consts.BRACES);
 		}
 		catch (Exception e)
 		{
@@ -61,6 +57,5 @@ public class InputScannerTest
 			String actual = actualList.get(i);
 			assertTrue("Expected:" + expected.toString() + "End Actual:" + actual.toString() +"End", expected.equals(actual));
 		}
-		
 	}
 }

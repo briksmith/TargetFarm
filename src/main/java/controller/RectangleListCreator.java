@@ -6,15 +6,12 @@ import java.util.List;
 
 import model.Point;
 import model.Rectangle;
+import utils.Consts;
 import utils.InputScanner;
 
 public class RectangleListCreator
 {
 	private static final int NUM_COORDINATES = 4;
-	private static final char[] BRACES =
-	{ '{', '}' };
-	private static final char[] QUOTES =
-	{ '"', '"' };
 
 	public static List<Rectangle> createListOfRectangles(String inString)
 	{
@@ -22,24 +19,22 @@ public class RectangleListCreator
 		List<String> rawStrings = new ArrayList<>();
 		List<List<Integer>> rawNumbers = new ArrayList<>();
 		List<Rectangle> rectangles = new ArrayList<>();
-		System.out.println(inString);
 		try
 		{
-			inString = InputScanner.removeGroupingSymbol(inString, BRACES);
+			inString = InputScanner.removeGroupingSymbol(inString, Consts.BRACES);
+			inString = InputScanner.removeGroupingSymbol(inString, Consts.QUOTES);
 			InputScanner.seperateStringByCommasAndAddToList(inString, rawStrings);
 			translateRawStringNumbersToListOfRawIntegerLists(rawStrings, rawNumbers);
 			translateRawIntegersToRectangles(rawNumbers, rectangles);
 		}
 		catch (Exception e)
 		{
-			e.printStackTrace();
 			System.out.println(e.getMessage());
 			return Collections.emptyList();
 		}
 		return rectangles;
 	}
 
-	
 	private static void translateRawStringNumbersToListOfRawIntegerLists(List<String> rawStrings,
 			List<List<Integer>> rawNumbers) throws Exception
 	{
@@ -48,7 +43,8 @@ public class RectangleListCreator
 		{
 			list = parseStringToRawPoints(b);
 			rawNumbers.add(list);
-			list = new ArrayList<>();;
+			list = new ArrayList<>();
+			;
 		}
 	}
 
@@ -75,11 +71,13 @@ public class RectangleListCreator
 		}
 	}
 
-	private static void translateRawIntegersToRectangles(List<List<Integer>> rawNumbers, List<Rectangle> rectangles)
+	private static void translateRawIntegersToRectangles(List<List<Integer>> rawNumbers, List<Rectangle> rectangles) throws Exception
 	{
 		for ( List<Integer> ints : rawNumbers){
 			if ( invalidSize(ints) ) {
-				continue;
+				String nums = generateStringOfInputNumbers(ints);
+				throw new Exception("Each element in list must be " + NUM_COORDINATES + ".  Was: " + ints.size() + " actual numbers: "
+					+	nums);
 			}
 			Point lowerLeft = new Point(ints.get(0), ints.get(1));
 			Point upperRight = new Point(ints.get(2), ints.get(3));
@@ -87,7 +85,17 @@ public class RectangleListCreator
 			rectangles.add(rect);
 		}
 	}
-	
+
+	private static String generateStringOfInputNumbers(List<Integer> rawNumbers)
+	{
+		String toReturn = "";
+		for (Integer i : rawNumbers)
+		{
+			toReturn = toReturn.concat(" " + i.toString());
+		}
+		return toReturn;
+	}
+
 	private static boolean invalidSize(List<Integer> ints)
 	{
 		return ints.size() != NUM_COORDINATES;

@@ -269,17 +269,6 @@ public class RectangleTest
 		
 		verifyPointsInSet(firstRectanglePointInfo, infertilePoints);
 		verifyPointsInSet(overlapAreaPointInfo, infertilePoints);
-		int totalPoints = infertilePoints.size();
-		int testRectanglePoints = testRectangle.calcPointsIncludeEdges();
-		
-		Point lowerLeftNonOverlap = new Point(3,10);
-		Point upperRightNonOverlap = new Point(4, 12);
-		Rectangle nonOverlap = new Rectangle(lowerLeftNonOverlap, upperRightNonOverlap);
-		
-		int nonOverlapRectanglePoints = nonOverlap.calcPointsIncludeEdges();
-		int totalRectPoints = testRectanglePoints + nonOverlapRectanglePoints;
-				
-		assertTrue("total points should be equal to " + totalRectPoints + " Was: " + totalPoints, totalRectPoints == totalPoints);
 	}
 	
 	@Test
