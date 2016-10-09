@@ -159,7 +159,6 @@ public class Farm
 
 	private void setParcelsToInfertile(Set<Point> InputinfertilePoints)
 	{
-<<<<<<< HEAD
 		for ( List<FarmPoint> farmPoints : parcels){
 			for ( FarmPoint farmPoint : farmPoints){
 				Point point = farmPoint.getPoint();
@@ -170,14 +169,8 @@ public class Farm
 		}
 		
 	}
-=======
-		for (Point p : InputinfertilePoints)
-		{
-			setPointInParcelInfertile(p);
-		}
->>>>>>> DepthFirst
+		
 
-	}
 
 	private void setPointInParcelInfertile(Point p)
 	{
