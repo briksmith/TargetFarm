@@ -196,6 +196,83 @@ public class Rectangle
 		return infertilePoints;
 	}
 	
+	public Set<Point> getSetOfIntersectingPoints(Rectangle inRect){
+		
+		Set<Point> points = new HashSet<>();
+		
+		points.addAll(findIntersectionOfEdge(lowerLeftPoint, upperLeftPoint, inRect));
+		points.addAll(findIntersectionOfEdge(upperLeftPoint, upperRightPoint, inRect));
+		points.addAll(findIntersectionOfEdge(upperRightPoint, lowerRightPoint, inRect));
+		points.addAll(findIntersectionOfEdge(lowerRightPoint, lowerLeftPoint, inRect));
+		
+		
+		return points;
+	}
+	
+	private List<Point> findIntersectionOfEdge(Point inPoint1, Point inPoint2, Rectangle inRect)
+	{
+		List<Point> points = new ArrayList<>();
+		boolean changeXValue = shouldChangeXValue(inPoint1, inPoint2);
+		int stepValue = getStepValue(inPoint1, inPoint2, changeXValue);
+		int startPoint = getCordinateToWalk(inPoint1, changeXValue);
+		int endPoint = getCordinateToWalk(inPoint2, changeXValue);
+		Point pointToCheck = new Point(inPoint1);
+		
+		if ( stepValue > 0)
+		{
+			for ( int i = startPoint; i <= endPoint; i++){
+				
+				if ( inRect.Contains(pointToCheck)){
+					points.add( new Point(pointToCheck));
+				}
+				incrementCordinateToWalk(changeXValue, stepValue, pointToCheck);
+			}
+		}
+		else{
+			for ( int i = startPoint; i >= endPoint; i--){
+				if ( inRect.Contains(pointToCheck)){
+					points.add( new Point(pointToCheck));
+				}
+				incrementCordinateToWalk(changeXValue, stepValue, pointToCheck);
+			}
+		}
+		return returnFirstAndLastValue(points);
+	}
+	
+	private int getStepValue(Point inPoint1, Point inPoint2, boolean changeXValue)
+	{
+		int direction;
+		direction = calculateDirection(inPoint1, inPoint2, changeXValue);
+		return direction > 0 ? 1 : -1;
+	}
+
+	private int calculateDirection(Point inPoint1, Point inPoint2, boolean changeXValue)
+	{
+		int direction;
+		if ( changeXValue) {
+			direction = ( inPoint2.getX() - inPoint1.getX() );
+		}else
+		{
+			direction = ( inPoint2.getY() - inPoint1.getY() );
+		}
+		return direction;
+	}
+
+
+	private List<Point> returnFirstAndLastValue(List<Point> points)
+	{
+		List<Point> pointsToReturn = new ArrayList<>();
+		if ( points.size() > 0){
+		pointsToReturn.add(points.get(0));
+		}
+		if (points.size() > 1){
+		pointsToReturn.add(points.get(points.size() - 1));
+		}
+		
+		return pointsToReturn;
+	}
+
+	
 	public Point getLowerLeftPoint()
 	{
 		return new Point(lowerLeftPoint);
