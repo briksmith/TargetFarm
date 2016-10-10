@@ -226,7 +226,7 @@ public class RectangleTest
 	@Test
 	public void testGetInfertilePoints()
 	{
-		Set<Point> result = testRectangle.getSetOfInfertilePoints();
+		Set<Point> result = testRectangle.getInfertilePoints();
 		Point lowerLeft = testRectangle.getLowerLeftPoint();
 		Point upperRight = testRectangle.getUpperRightPoint();
 		PointInfo pointInfo = new PointInfo(lowerLeft, upperRight);
@@ -284,6 +284,18 @@ public class RectangleTest
 		assertTrue(lowerLeft.getY() == lowerLeftY);
 		assertTrue(upperRight.getX() == upperRightX);
 		assertTrue(upperRight.getY() == upperRightY);
+	}
+	
+	@Test
+	public void testDefensiveCopyOfInfertilePoints(){
+		
+		Point testPoint = new Point(Integer.MAX_VALUE, Integer.MAX_VALUE);
+		Set<Point> infertilePoints = testRectangle.getInfertilePoints();
+		
+		infertilePoints.add(testPoint);
+		
+		Set<Point> defensiveCopyCheck = testRectangle.getInfertilePoints();
+		assertFalse("You should not be able to add a point to the set of inferilepoints.  We were.", defensiveCopyCheck.contains(testPoint));
 	}
 	
 }

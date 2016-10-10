@@ -18,7 +18,7 @@ public class Rectangle
 	private List<Point> topEdgeSet;
 	private List<List<Point>> edgeSetList = new ArrayList<List<Point>>();
 	
-	private RectangleIntersectionFinder rectangleIntersectionFinder;
+	private Set<Point> infertilePoints;
 	
 	public Rectangle(Point inLowerLeftPoint, Point inUpperRightPoint)
 	{
@@ -29,6 +29,7 @@ public class Rectangle
 		this.upperLeftPoint = new Point(inLowerLeftPoint.getX(), inUpperRightPoint.getY());
 		this.lowerRightPoint = new Point(inUpperRightPoint.getX(), inLowerLeftPoint.getY());
 		createEdgeSets();
+		calculateInfertilePoints();
 	}
 	
 	public Rectangle( int lowerLeftX, int lowerLeftY, int upperLeftX, int upperRightY){
@@ -39,6 +40,7 @@ public class Rectangle
 		this.upperLeftPoint = new Point(lowerLeftPoint.getX(), upperRightPoint.getY());
 		this.lowerRightPoint = new Point(upperRightPoint.getX(), lowerLeftPoint.getY());
 		createEdgeSets();
+		calculateInfertilePoints();
 	}
 
 	private void createEdgeSets()
@@ -49,6 +51,19 @@ public class Rectangle
 		bottomEdgeSet = createEdgeSet(lowerLeftPoint, lowerRightPoint);
 		addEdgeSetsToList();
 	
+		
+	}
+
+	private void calculateInfertilePoints()
+	{
+		infertilePoints = new HashSet<>();
+		
+		for( int i = lowerLeftPoint.getX(); i <= upperRightPoint.getX(); i++){
+			for ( int j = lowerLeftPoint.getY(); j <= upperRightPoint.getY(); j++){
+				Point pointToAdd = new Point(i,j);
+				infertilePoints.add(pointToAdd);
+			}
+		}
 		
 	}
 
@@ -173,18 +188,10 @@ public class Rectangle
 		return inPoint.getY() >= lowerLeftPoint.getY() && inPoint.getY() <= upperRightPoint.getY();
 	}
 
-	public Set<Point> getSetOfInfertilePoints(){
+	public Set<Point> getInfertilePoints(){
 		
-		Set<Point> infertilePoints = new HashSet<>();
-		
-		for( int i = lowerLeftPoint.getX(); i <= upperRightPoint.getX(); i++){
-			for ( int j = lowerLeftPoint.getY(); j <= upperRightPoint.getY(); j++){
-				Point pointToAdd = new Point(i,j);
-				infertilePoints.add(pointToAdd);
-			}
-		}
-		
-		return infertilePoints;
+		Set<Point> pointsToReturn = new HashSet<>(infertilePoints);
+		return pointsToReturn;
 	}
 	
 	public static Set<Point> getSetOfInfertilePointsForListOfRects(List<Rectangle> inRects){
@@ -192,7 +199,7 @@ public class Rectangle
 		Set<Point> infertilePoints = new HashSet<>();
 		
 		for (Rectangle r : inRects){
-			Set<Point> rectPoints = r.getSetOfInfertilePoints();
+			Set<Point> rectPoints = r.getInfertilePoints();
 			infertilePoints.addAll(rectPoints);
 		}
 		return infertilePoints;
