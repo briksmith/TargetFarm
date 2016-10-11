@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import controller.InfertilePlotsFinder;
+
 public class Farm
 {
 	private List<ArrayList<FarmPoint>> parcels;
@@ -13,6 +15,8 @@ public class Farm
 	private List<Rectangle> inFertileAreas;
 
 	private Set<Point> inFertilePoints;
+	
+	private InfertilePlotsFinder infertilePlotsFinder;
 
 	int[] rowStep =
 	{ 1, 1, 1, 0, -1, -1, -1, 0 };

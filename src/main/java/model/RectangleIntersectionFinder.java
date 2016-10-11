@@ -13,6 +13,22 @@ public class RectangleIntersectionFinder
 	private static Set<Point> bottomEdgePoints = new HashSet<>();
 	private static List<List<Point>> listOfEdgePoints = new ArrayList<List<Point>>();
 	
+	public static Set<Point> findAllIntersectionsWithAxisAndRectangles(List<Rectangle> inRects){
+		Set<Point> totalPoints = new HashSet<>();
+		Set<Point> currentPoints = new HashSet<>();
+		for ( int i = 0; i < inRects.size(); i++ ){
+			for ( int j = i + 1; j < inRects.size(); j++)
+			{
+				currentPoints = findIntersectionOfEdges(inRects.get(i), inRects.get(j));
+				totalPoints.addAll(currentPoints);
+			}
+			
+		}
+		
+		return totalPoints;
+	}
+	
+	
 	public static Set<Point> findIntersectionOfEdges(Rectangle rectangleIntersecting, Rectangle rectangleToIntersectWith){
 		
 		List<List<Point>> intersectingEdges = rectangleIntersecting.getEdgeSetList();

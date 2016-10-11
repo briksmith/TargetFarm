@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -170,6 +171,51 @@ public class RectangleIntersectionFinderTest
 		for ( Point p : points){
 		System.out.println(p.toString());
 		}
+	}
+	
+	@Test
+	public void getEmptySetWhenNoRects(){
+		
+		List<Rectangle> rects = Collections.emptyList();
+		
+		Set<Point> result = new HashSet<>();
+		
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(rects);
+		
+		assertTrue("This should have returned an empty set and did not. ",  result.equals(Collections.EMPTY_SET));
+		
+	}
+	
+	@Test
+	public void getEmptySetWhenRectsDoNotIntersect(){
+		
+		List<Rectangle> rects = new ArrayList<>();
+		
+		Rectangle rect1 = new Rectangle(1, 1, 4, 5);
+		Rectangle rect2 = new Rectangle(7, 10, 9, 12);
+		rects.add(rect1);
+		rects.add(rect2);
+		
+		Set<Point> result = new HashSet<>();
+		
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(rects);
+		
+		assertTrue("This should have returned an empty set and did not. " + outPutSet(result),  result.equals(Collections.EMPTY_SET));
+		
+	}
+	
+	private String outPutSet(Set<Point> result)
+	{
+		String outPut = "";
+		for ( Point p : result){
+			outPut = outPut + p.toString() + "\n";
+		}
+		return outPut; 
+	}
+
+	@Test
+	public void getEmptySetWhenRectsDoNotIntersectEachOtherOrAxis(){
+		
 	}
 }
 

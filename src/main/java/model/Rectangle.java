@@ -64,7 +64,6 @@ public class Rectangle
 				infertilePoints.add(pointToAdd);
 			}
 		}
-		
 	}
 
 	private void addEdgeSetsToList()

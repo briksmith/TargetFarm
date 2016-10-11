@@ -146,9 +146,23 @@ public class RectangleTest
 	}
 
 	@Test
-	public void testOutsidePointShouldNotBeFound()
+	public void testPointShouldNotBeFoundXValueOutBy1()
 	{
 		Point testPointOutside = new Point(5, 8);
+		Point lowerLeft = new Point(0, 0);
+		Point upperRight = new Point(4, 6);
+
+		Rectangle rectangle = new Rectangle(lowerLeft, upperRight);
+
+		assertFalse("Point: " + testPointOutside.toString() + " should have not been found in Rectangle: "
+				+ rectangle.toString() + " and was.", rectangle.Contains(testPointOutside));
+
+	}
+	
+	@Test
+	public void testOutsidePointShouldNotBeFoundYValueOutBy1()
+	{
+		Point testPointOutside = new Point(4, 7);
 		Point lowerLeft = new Point(0, 0);
 		Point upperRight = new Point(4, 6);
 
