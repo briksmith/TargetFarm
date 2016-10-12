@@ -30,7 +30,7 @@ public class FarmTest
 
 	Farm systemUnderTest;
 
-	@Before
+	@Before 
 	public void setUp()
 	{
 		MockitoAnnotations.initMocks(this);

@@ -13,13 +13,17 @@ public class RectangleIntersectionFinder
 	private static Set<Point> bottomEdgePoints = new HashSet<>();
 	private static List<List<Point>> listOfEdgePoints = new ArrayList<List<Point>>();
 	
-	public static Set<Point> findAllIntersectionsWithAxisAndRectangles(List<Rectangle> inRects){
+	public static Set<Point> findAllIntersectionsWithAxisAndRectangles(Farm inFarm){
 		Set<Point> totalPoints = new HashSet<>();
 		Set<Point> currentPoints = new HashSet<>();
-		for ( int i = 0; i < inRects.size(); i++ ){
-			for ( int j = i + 1; j < inRects.size(); j++)
+		List<Rectangle> rects = inFarm.getInFertileAreas();
+		for ( int i = 0; i < rects.size(); i++ ){
+			Rectangle rect1 = rects.get(i);
+			currentPoints = findIntersectionWithAxis(inFarm, rect1);
+			totalPoints.addAll(currentPoints);
+			for ( int j = i + 1; j < rects.size(); j++)
 			{
-				currentPoints = findIntersectionOfEdges(inRects.get(i), inRects.get(j));
+				currentPoints = findIntersectionOfEdges(rect1, rects.get(j));
 				totalPoints.addAll(currentPoints);
 			}
 			
@@ -29,6 +33,39 @@ public class RectangleIntersectionFinder
 	}
 	
 	
+	private static Set<Point> findIntersectionWithAxis(Farm inFarm, Rectangle rect1)
+	{
+		Set<Point> points = new HashSet<>();
+		if ( intersectsYAxis(inFarm, rect1) || intersectsXAxis(inFarm, rect1))
+		{
+			points = rect1.getRectangleCorners();
+		}
+		return points;
+	}
+
+
+	private static boolean intersectsYAxis(Farm inFarm, Rectangle rect1)
+	{
+		Point lowerLeft = rect1.getLowerLeftPoint();
+		Point lowerRight = rect1.getLowerRightPoint();
+		if ( lowerLeft.getX() == 0 && lowerRight.getX() == inFarm.getRowCount() - 1){
+			return true;
+		}
+		return false;
+	}
+
+
+	private static boolean intersectsXAxis(Farm inFarm, Rectangle rect1)
+	{
+		Point lowerLeft = rect1.getLowerLeftPoint();
+		Point upperLeft = rect1.getUpperLeftPoint();
+		if ( lowerLeft.getY() == 0 && upperLeft.getY() == inFarm.getColCount() - 1) {
+			return true;
+		}
+		return false;
+	}
+
+
 	public static Set<Point> findIntersectionOfEdges(Rectangle rectangleIntersecting, Rectangle rectangleToIntersectWith){
 		
 		List<List<Point>> intersectingEdges = rectangleIntersecting.getEdgeSetList();

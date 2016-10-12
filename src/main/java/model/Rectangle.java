@@ -268,4 +268,15 @@ public class Rectangle
 		return edgeSetList;
 	}
 
+	public Set<Point> getRectangleCorners()
+	{
+		Set<Point> points = new HashSet<>();
+		
+		points.add(lowerLeftPoint);
+		points.add(lowerRightPoint);
+		points.add(upperLeftPoint);
+		points.add(upperRightPoint);
+		return points;
+	}
+
 }

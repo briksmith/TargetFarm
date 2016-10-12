@@ -312,4 +312,20 @@ public class RectangleTest
 		assertFalse("You should not be able to add a point to the set of inferilepoints.  We were.", defensiveCopyCheck.contains(testPoint));
 	}
 	
+	@Test
+	public void testGetRectangleCorners() {
+		
+		Point lowerLeft = testRectangle.getLowerLeftPoint();
+		Point lowerRight = testRectangle.getLowerRightPoint();
+		Point upperLeft = testRectangle.getUpperLeftPoint();
+		Point upperRight = testRectangle.getUpperRightPoint();
+		
+		
+		Set<Point> points = testRectangle.getRectangleCorners();
+		assertTrue(points.contains(lowerLeft));
+		assertTrue(points.contains(lowerRight));
+		assertTrue(points.contains(upperLeft));
+		assertTrue(points.contains(upperRight));
+	}
+	
 }

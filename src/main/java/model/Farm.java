@@ -190,4 +190,14 @@ public class Farm
 		return inFertilePoints;
 	}
 
+	public int getRowCount()
+	{
+		return rowCount;
+	}
+
+	public int getColCount()
+	{
+		return colCount;
+	}
+
 }
