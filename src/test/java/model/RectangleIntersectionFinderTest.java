@@ -1,5 +1,6 @@
 package model;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -113,7 +114,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(7, 5);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points, 2, intersectPoint1, intersectPoint2);
 	}
 
 	@Test
@@ -126,7 +127,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(7, 5);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect2, rect1);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points, 2, intersectPoint1, intersectPoint2);
 	}
 
 	@Test
@@ -139,7 +140,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(8, 3);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points, 2, intersectPoint1, intersectPoint2);
 	}
 
 	@Test
@@ -152,7 +153,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(8, 3);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect2, rect1);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points, 2, intersectPoint1, intersectPoint2);
 	}
 	
 	@Test
@@ -165,7 +166,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(3, 5);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points, 2, intersectPoint1, intersectPoint2);
 	}
 	
 	@Test
@@ -178,7 +179,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(3, 5);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect2, rect1);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points,  2, intersectPoint1, intersectPoint2);
 	}
 	
 	@Test
@@ -191,7 +192,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(5, 5);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points,  2, intersectPoint1, intersectPoint2);
 	}
 	
 	@Test
@@ -204,7 +205,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectPoint2 = new Point(5, 5);
 
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect2, rect1);
-		verifyPoints(points, intersectPoint1, intersectPoint2);
+		verifyPoints(points,  2, intersectPoint1, intersectPoint2);
 	}
 	
 	@Test
@@ -216,7 +217,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectionPoint2 = new Point(7,4);
 		
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points, intersectionPoint1, intersectionPoint2);
+		verifyPoints(points,  2, intersectionPoint1, intersectionPoint2);
 		
 	}
 	
@@ -228,7 +229,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectionPoint2 = new Point(4,5);
 		
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points, intersectionPoint1, intersectionPoint2);
+		verifyPoints(points,  2, intersectionPoint1, intersectionPoint2);
 	}
 	
 	@Test
@@ -239,7 +240,7 @@ public class RectangleIntersectionFinderTest
 		Point intersectionPoint2 = new Point(4,5);
 		
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect2, rect1);
-		verifyPoints(points, intersectionPoint1, intersectionPoint2);
+		verifyPoints(points,  2, intersectionPoint1, intersectionPoint2);
 	}
 	
 	@Test
@@ -250,12 +251,12 @@ public class RectangleIntersectionFinderTest
 		Point intersectionPoint2 = new Point(8,5);
 		
 		Set<Point> points = RectangleIntersectionFinder.findIntersectionOfEdges(rect1, rect2);
-		verifyPoints(points,intersectionPoint1, intersectionPoint2);
+		verifyPoints(points, 2, intersectionPoint1, intersectionPoint2);
 	}
 
-	private void verifyPoints(Set<Point> setOfPoints, Point... pointsToCheck)
+	private void verifyPoints(Set<Point> setOfPoints, int expectedSizeOfPoints, Point... pointsToCheck)
 	{
-		verifySize(2, setOfPoints);
+		verifySize(expectedSizeOfPoints, setOfPoints);
 		for ( Point p : pointsToCheck){
 			verifyIntersectionPoint(p, setOfPoints);
 		}
@@ -349,7 +350,7 @@ public class RectangleIntersectionFinderTest
 	}
 
 	@Test
-	public void getRectWhenRectIntersectsYAxis()
+	public void getRectWhenRectIntersectsYAxes()
 	{
 
 		List<Rectangle> rects = new ArrayList<>();
@@ -370,7 +371,7 @@ public class RectangleIntersectionFinderTest
 	}
 	
 	@Test
-	public void getRectWhenRectIntersectsXAxis()
+	public void getRectWhenRectIntersectsXAxes()
 	{
 
 		List<Rectangle> rects = new ArrayList<>();
@@ -389,7 +390,83 @@ public class RectangleIntersectionFinderTest
 				+ result.toString(), verifyRectangleVerticesInPointsPoints(rects, result));
 
 	}
+	
+	@Test
+	public void rectangleThatIntersectsOnlyLeftYAxisShouldNotBeFound(){
+		
+		List<Rectangle> rects = new ArrayList<>();
+		Rectangle rect1 = new Rectangle(0, 3, 0, 8);
+		rects.add(rect1);
+		
+		when(farm.getInFertileAreas()).thenReturn(rects);
+		when(farm.getRowCount()).thenReturn(MOCK_ROW_COUNT);
+		when(farm.getRowCount()).thenReturn(MOCK_COL_COUNT);
+		
+		Set<Point> result = new HashSet<>();
 
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(farm);
+		assertFalse("rect1 should have been in set and was not.  Rect1: " + rect1.toString() + " result: "
+				+ result.toString(), verifyRectangleVerticesInPointsPoints(rects, result));
+		
+	}
+	
+	@Test
+	public void rectangleThatIntersectsOnlyRightYAxisShouldNotBeFound(){
+		
+		List<Rectangle> rects = new ArrayList<>();
+		Rectangle rect1 = new Rectangle(MOCK_ROW_COUNT - 1, 3, MOCK_ROW_COUNT - 1, 8);
+		rects.add(rect1);
+		
+		when(farm.getInFertileAreas()).thenReturn(rects);
+		when(farm.getRowCount()).thenReturn(MOCK_ROW_COUNT);
+		when(farm.getRowCount()).thenReturn(MOCK_COL_COUNT);
+		
+		Set<Point> result = new HashSet<>();
+
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(farm);
+		assertFalse("rect1 should have been in set and was not.  Rect1: " + rect1.toString() + " result: "
+				+ result.toString(), verifyRectangleVerticesInPointsPoints(rects, result));
+		
+	}
+	
+	@Test
+	public void rectangleThatIntersectsOnlyBottomXAxisShouldNotBeFound(){
+		
+		List<Rectangle> rects = new ArrayList<>();
+		Rectangle rect1 = new Rectangle(3, 0, 5, 4);
+		rects.add(rect1);
+		
+		when(farm.getInFertileAreas()).thenReturn(rects);
+		when(farm.getRowCount()).thenReturn(MOCK_ROW_COUNT);
+		when(farm.getRowCount()).thenReturn(MOCK_COL_COUNT);
+		
+		Set<Point> result = new HashSet<>();
+
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(farm);
+		assertFalse("rect1 should have been in set and was not.  Rect1: " + rect1.toString() + " result: "
+				+ result.toString(), verifyRectangleVerticesInPointsPoints(rects, result));
+		
+	}
+
+	@Test
+	public void rectangleThatIntersectsOnlyTopXAxisShouldNotBeFound(){
+		
+		List<Rectangle> rects = new ArrayList<>();
+		Rectangle rect1 = new Rectangle(3, MOCK_COL_COUNT - 1,5, MOCK_COL_COUNT - 1);
+		rects.add(rect1);
+		
+		when(farm.getInFertileAreas()).thenReturn(rects);
+		when(farm.getRowCount()).thenReturn(MOCK_ROW_COUNT);
+		when(farm.getRowCount()).thenReturn(MOCK_COL_COUNT);
+		
+		Set<Point> result = new HashSet<>();
+
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(farm);
+		assertFalse("rect1 should have been in set and was not.  Rect1: " + rect1.toString() + " result: "
+				+ result.toString(), verifyRectangleVerticesInPointsPoints(rects, result));
+		
+	}
+	
 	private boolean verifyRectangleVerticesInPointsPoints(List<Rectangle> rects, Set<Point> result)
 	{
 		if (rects.isEmpty())
