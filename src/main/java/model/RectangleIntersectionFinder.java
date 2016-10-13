@@ -8,37 +8,41 @@ import java.util.TreeSet;
 
 public class RectangleIntersectionFinder
 {
-	private static Set<Point> leftEdgePoints = new HashSet<>();
-	private static Set<Point> rightEdgePoints = new HashSet<>();
-	private static Set<Point> topEdgePoints = new HashSet<>();
-	private static Set<Point> bottomEdgePoints = new HashSet<>();
-	private static List<List<Point>> listOfEdgePoints = new ArrayList<List<Point>>();
-	
 	public static Set<Point> findAllIntersectionsWithAxisAndRectangles(Farm inFarm){
 		Set<Point> totalPoints = new HashSet<>();
-		Set<Point> currentPoints = new HashSet<>();
 		List<Rectangle> rects = inFarm.getInFertileAreas();
-		for ( int i = 0; i < rects.size(); i++ ){
-			Rectangle rect1 = rects.get(i);
-			currentPoints = findIntersectionWithAxis(inFarm, rect1);
-			totalPoints.addAll(currentPoints);
+		int i = 0;
+		for ( Rectangle rect1 : rects){
+			addIntersectionWithAxes(inFarm, totalPoints, rect1);
 			for ( int j = i + 1; j < rects.size(); j++)
 			{
-				currentPoints = findIntersectionOfEdges(rect1, rects.get(j));
-				totalPoints.addAll(currentPoints);
+				addIntersectionWithEdges(totalPoints, rects, rect1, j);
 			}
-			
+			i++;
 		}
 		if ( totalPoints.isEmpty()){
 			return totalPoints;
 		}
 		addOrigin(totalPoints);
-		currentPoints = findPointsOnAxes(rects, inFarm);
-		totalPoints.addAll(currentPoints);
-		
+		addPointsOnAxes(inFarm, totalPoints, rects);
 		addAllRectanglePointsToCurrentPoints(totalPoints, rects);
-		
 		return totalPoints;
+	}
+
+
+	private static void addIntersectionWithAxes(Farm inFarm, Set<Point> totalPoints, Rectangle rect1)
+	{
+		Set<Point> currentPoints;
+		currentPoints = findIntersectionWithAxis(inFarm, rect1);
+		totalPoints.addAll(currentPoints);
+	}
+
+
+	private static void addIntersectionWithEdges(Set<Point> totalPoints, List<Rectangle> rects, Rectangle rect1, int j)
+	{
+		Set<Point> currentPoints;
+		currentPoints = findIntersectionOfEdges(rect1, rects.get(j));
+		totalPoints.addAll(currentPoints);
 	}
 
 
@@ -48,12 +52,11 @@ public class RectangleIntersectionFinder
 	}
 
 
-	private static void addAllRectanglePointsToCurrentPoints(Set<Point> currentPoints, List<Rectangle> rects)
+	private static void addPointsOnAxes(Farm inFarm, Set<Point> totalPoints, List<Rectangle> rects)
 	{
-		for ( Rectangle r :rects){
-			Set<Point> rectPoints = r.getRectangleCorners();
-			currentPoints.addAll(rectPoints);
-		}
+		Set<Point> currentPoints;
+		currentPoints = findPointsOnAxes(rects, inFarm);
+		totalPoints.addAll(currentPoints);
 	}
 
 
@@ -79,11 +82,16 @@ public class RectangleIntersectionFinder
 		curPoints.add( new Point(inFarm.getRowCount() - 1, lowerRight.getY()));
 		curPoints.add( new Point(upperRight.getX(), inFarm.getColCount() - 1));
 		curPoints.add( new Point(inFarm.getRowCount() - 1, upperRight.getY()));
-	//	Point lowerLeftXAxis = new Point( arrayOfPoints[0].getX(), 0);
-	//	Point lowerLeftYAxis =  new Point ( 0, arrayOfPoints[1].getY());
-	//	Point lowerRight = new Point ( arrayOfPoints[arrayOfPoints.length - 2];
-	//	Point upperRight = arrayOfPoints[arrayOfPoints.length - 1];
 		return curPoints;
+	}
+
+
+	private static void addAllRectanglePointsToCurrentPoints(Set<Point> currentPoints, List<Rectangle> rects)
+	{
+		for ( Rectangle r :rects){
+			Set<Point> rectPoints = r.getRectangleCorners();
+			currentPoints.addAll(rectPoints);
+		}
 	}
 
 
@@ -152,35 +160,6 @@ public class RectangleIntersectionFinder
 		return points;
 	}
 
-	private static void flushEdgePointDataStructures()
-	{
-		leftEdgePoints.clear();
-		rightEdgePoints.clear();
-		topEdgePoints.clear();
-		bottomEdgePoints.clear();
-		listOfEdgePoints.clear();
-		
-	}
-
-	private static void createEdgeSets(Rectangle rect2)
-	{
-		createEdgeSet(leftEdgePoints, rect2.getLowerLeftPoint(), rect2.getUpperLeftPoint());
-	}
-
-	private static void createEdgeSet(Set<Point> edgePoints, Point inPoint1, Point inPoint2)
-	{
-		Set<Point> edgeSet = new HashSet<>();
-		boolean changeXValue = shouldChangeXValue(inPoint1, inPoint2);
-		int distance = calculateDistance(inPoint1, inPoint2, changeXValue);
-		int sign = distance > 0 ? 1 : -1;
-		
-		for ( int i = 0; i <= distance; i++) {
-				edgeSet.add(new Point(inPoint1));
-				incrementCordinateToWalk(changeXValue, sign, inPoint1);
-			}
-			
-	}
-
 	private static boolean shouldChangeXValue(Point inPoint1, Point inPoint2)
 	{
 		if ( inPoint1.getX() != inPoint2.getX()) {
@@ -191,17 +170,6 @@ public class RectangleIntersectionFinder
 		}
 	}
 
-	private static int calculateDistance(Point inPoint1, Point inPoint2, boolean changeXValue)
-	{
-		int distance = 0;
-		if ( changeXValue) {
-			distance = ( inPoint2.getX() - inPoint1.getX() );
-		}else
-		{
-			distance = ( inPoint2.getY() - inPoint1.getY() );
-		}
-		return distance;
-	}
 	
 	private static int getCordinateToWalk(Point inPoint, boolean inChangeXValue)
 	{
