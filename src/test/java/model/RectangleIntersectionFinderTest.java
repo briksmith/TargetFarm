@@ -467,6 +467,104 @@ public class RectangleIntersectionFinderTest
 		
 	}
 	
+	@Test
+	public void testFindIntersectionAddsAxesPointsIncludesAllRects() {
+		
+		List<Rectangle> rects = new ArrayList<>();
+		Rectangle rect1 = new Rectangle(2,3,6,4);
+		Rectangle rect2 = new Rectangle(5,2,10,5);
+		Rectangle rect3 = new Rectangle(7,3,9,7);
+		rects.add(rect1);
+		rects.add(rect2);
+		rects.add(rect3);
+		
+		List<Point> intersectionPoints = getExpectedIntersectionWithRectanglesPoints();
+		intersectionPoints.addAll(getExpectedIntersectionWithAxesPoints());
+		addOrigin(intersectionPoints);
+		
+		when(farm.getInFertileAreas()).thenReturn(rects);
+		when(farm.getRowCount()).thenReturn(MOCK_ROW_COUNT);
+		when(farm.getColCount()).thenReturn(MOCK_COL_COUNT);
+		
+		Set<Point> result = new HashSet<>();
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(farm);
+		Point[] pts = {};
+		pts = intersectionPoints.toArray(pts);
+		verifyPoints(result, 25, pts);
+	}
+
+	private List<Point> getExpectedIntersectionWithRectanglesPoints()
+	{
+		List<Point> points = new ArrayList<>();
+		points.add(new Point(5,3));
+		points.add(new Point(5,4));
+		points.add(new Point(7,5));
+		points.add(new Point(9,5));
+		
+		
+		return points;
+	}
+	
+	private List<Point> getExpectedIntersectionWithAxesPoints()
+	{
+		List<Point> points = new ArrayList<>();
+		points.add(new Point(0,3));
+		points.add(new Point(0,4));
+		points.add(new Point(2,0));
+		points.add(new Point(2,MOCK_COL_COUNT -1));
+		points.add(new Point(10,0));
+		points.add(new Point(MOCK_ROW_COUNT - 1, 2));
+		points.add(new Point(MOCK_ROW_COUNT - 1, 5));
+		points.add(new Point(10, MOCK_COL_COUNT - 1));
+		return points;
+	}
+	
+	@Test
+	public void testFindIntersectionAddsAxesPointsIncludesAllRectsAndOneNonIntersectingRectangle(){
+		List<Rectangle> rects = new ArrayList<>();
+		Rectangle rect1 = new Rectangle(2,3,6,4);
+		Rectangle rect2 = new Rectangle(5,2,10,5);
+		Rectangle rect3 = new Rectangle(7,3,9,7);
+		Rectangle rect4 = new Rectangle(12,3, 14,7);
+		rects.add(rect1);
+		rects.add(rect2);
+		rects.add(rect3);
+		rects.add(rect4);
+		
+		List<Point> intersectionPoints = getExpectedIntersectionWithRectanglesPoints();
+		intersectionPoints.addAll(getExpectedIntersectionWithAxesPoints2());
+		addOrigin(intersectionPoints);
+		
+		when(farm.getInFertileAreas()).thenReturn(rects);
+		when(farm.getRowCount()).thenReturn(MOCK_ROW_COUNT);
+		when(farm.getColCount()).thenReturn(MOCK_COL_COUNT);
+		
+		Set<Point> result = new HashSet<>();
+		result = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(farm);
+		Point[] pts = {};
+		pts = intersectionPoints.toArray(pts);
+		verifyPoints(result, 29, pts);
+	}
+
+	private void addOrigin(List<Point> intersectionPoints)
+	{
+		intersectionPoints.add(new Point(0,0));
+	}
+
+	private List<Point> getExpectedIntersectionWithAxesPoints2()
+	{
+		List<Point> points = new ArrayList<>();
+		points.add(new Point(0,3));
+		points.add(new Point(0,4));
+		points.add(new Point(2,0));
+		points.add(new Point(2,MOCK_COL_COUNT -1));
+		points.add(new Point(14,0));
+		points.add(new Point(MOCK_ROW_COUNT - 1, 3));
+		points.add(new Point(MOCK_ROW_COUNT - 1, 7));
+		points.add(new Point(14, MOCK_COL_COUNT - 1));
+		return points;
+	}
+
 	private boolean verifyRectangleVerticesInPointsPoints(List<Rectangle> rects, Set<Point> result)
 	{
 		if (rects.isEmpty())

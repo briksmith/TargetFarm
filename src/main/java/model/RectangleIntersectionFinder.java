@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class RectangleIntersectionFinder
 {
@@ -28,11 +29,64 @@ public class RectangleIntersectionFinder
 			}
 			
 		}
+		if ( totalPoints.isEmpty()){
+			return totalPoints;
+		}
+		addOrigin(totalPoints);
+		currentPoints = findPointsOnAxes(rects, inFarm);
+		totalPoints.addAll(currentPoints);
+		
+		addAllRectanglePointsToCurrentPoints(totalPoints, rects);
 		
 		return totalPoints;
 	}
-	
-	
+
+
+	private static void addOrigin(Set<Point> totalPoints)
+	{
+		totalPoints.add(new Point(0,0));
+	}
+
+
+	private static void addAllRectanglePointsToCurrentPoints(Set<Point> currentPoints, List<Rectangle> rects)
+	{
+		for ( Rectangle r :rects){
+			Set<Point> rectPoints = r.getRectangleCorners();
+			currentPoints.addAll(rectPoints);
+		}
+	}
+
+
+	private static Set<Point> findPointsOnAxes(List<Rectangle> rects, Farm inFarm)
+	{
+		TreeSet<Point> sortedPoints = new TreeSet<>();
+		Set<Point> curPoints = new HashSet<>();
+		for ( Rectangle r : rects){
+			curPoints = r.getRectangleCorners();
+			sortedPoints.addAll(curPoints);
+		}
+		curPoints.clear();
+		Object[] arrayOfPoints =  sortedPoints.toArray();
+		Point lowerLeft = (Point) arrayOfPoints[0];
+		Point upperLeft = (Point) arrayOfPoints[1];
+		Point lowerRight = (Point) arrayOfPoints[arrayOfPoints.length - 2];
+		Point upperRight = (Point) arrayOfPoints[arrayOfPoints.length - 1];
+		curPoints.add( new Point(lowerLeft.getX(),0));
+		curPoints.add( new Point(0, lowerLeft.getY()));
+		curPoints.add( new Point(upperLeft.getX(), inFarm.getColCount() -1 ));
+		curPoints.add( new Point(0, upperLeft.getY()));
+		curPoints.add( new Point(lowerRight.getX(), 0));
+		curPoints.add( new Point(inFarm.getRowCount() - 1, lowerRight.getY()));
+		curPoints.add( new Point(upperRight.getX(), inFarm.getColCount() - 1));
+		curPoints.add( new Point(inFarm.getRowCount() - 1, upperRight.getY()));
+	//	Point lowerLeftXAxis = new Point( arrayOfPoints[0].getX(), 0);
+	//	Point lowerLeftYAxis =  new Point ( 0, arrayOfPoints[1].getY());
+	//	Point lowerRight = new Point ( arrayOfPoints[arrayOfPoints.length - 2];
+	//	Point upperRight = arrayOfPoints[arrayOfPoints.length - 1];
+		return curPoints;
+	}
+
+
 	private static Set<Point> findIntersectionWithAxis(Farm inFarm, Rectangle rect1)
 	{
 		Set<Point> points = new HashSet<>();
