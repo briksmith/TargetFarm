@@ -119,4 +119,6 @@ public class PointTest
 		
 		assertTrue("Should get zero for non point object. ", point1.compareTo(f) == 0);
 	}
+	
+	
 }

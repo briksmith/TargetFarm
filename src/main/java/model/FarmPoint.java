@@ -14,6 +14,11 @@ public class FarmPoint
 		visited = false;
 	}
 
+	public boolean notCountedAndFertile()
+	{
+		return isFertile() && !isVisited();
+	}
+	
 	public Point getPoint()
 	{
 		return point;

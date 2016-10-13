@@ -12,8 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import static org.mockito.Mockito.*;
-import org.powermock.reflect.Whitebox;
 
 import utils.DataValidator;
 
@@ -150,47 +148,6 @@ public class FarmTest
 		}
 	}
 
-	@Test
-	public void testNotCountedAndFertileFertileUnVisited() throws Exception
-	{
-		when(farmPoint.isFertile()).thenReturn(true);
-		when(farmPoint.isVisited()).thenReturn(false);
-		boolean result = Whitebox.invokeMethod(systemUnderTest, "notCountedAndFertile", farmPoint);
-
-		assertTrue("In this case of fertile and not visited we should search the area.", result);
-	}
-
-	@Test
-	public void testNotCountedAndFertileFertileAndVisited() throws Exception
-	{
-
-		when(farmPoint.isFertile()).thenReturn(true);
-		when(farmPoint.isVisited()).thenReturn(true);
-		boolean result = Whitebox.invokeMethod(systemUnderTest, "notCountedAndFertile", farmPoint);
-
-		assertFalse("In this case of fertile and  visited we should not search the area.", result);
-	}
-
-	@Test
-	public void testNotCountedAndFertileInfertileUnVisited() throws Exception
-	{
-		when(farmPoint.isFertile()).thenReturn(false);
-		when(farmPoint.isVisited()).thenReturn(false);
-		boolean result = Whitebox.invokeMethod(systemUnderTest, "notCountedAndFertile", farmPoint);
-
-		assertFalse("In this case of inFertile and  unVisited we should not search the area.", result);
-	}
-
-	@Test
-	public void testNotCountedAndInfertileInInfertileVisited() throws Exception
-	{
-		when(farmPoint.isFertile()).thenReturn(false);
-		when(farmPoint.isVisited()).thenReturn(true);
-		boolean result = Whitebox.invokeMethod(systemUnderTest, "notCountedAndFertile", farmPoint);
-
-		assertFalse("In this case of inFertile and  visited we should not search the area.", result);
-	}
-	
 	@Test
 	public void testTargetTestCaseOne()
 	{

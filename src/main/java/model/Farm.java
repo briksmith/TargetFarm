@@ -53,7 +53,7 @@ public class Farm
 			for (int j = 0; j < farmPoints.size(); j++)
 			{
 				FarmPoint farmPoint = farmPoints.get(j);
-				if (notCountedAndFertile(farmPoint))
+				if (farmPoint.notCountedAndFertile())
 				{
 					int plotSize = calculateSizeOfFertilePlot(farmPoint);
 					listOfFertilePlots.add(plotSize);
@@ -115,7 +115,7 @@ public class Farm
 			return false;
 		}
 		FarmPoint point = parcels.get(i).get(j);
-		return (notCountedAndFertile(point));
+		return (point.notCountedAndFertile());
 	}
 
 	private boolean checkIndexRanges(int i, int j)
