@@ -14,10 +14,12 @@ import utils.DataValidator;
 public class Launcher
 {
 	private Farm farm;
+	private static InfertilePlotsFinder plotsFinder;
 
 	public static void main(String[] args)
 	{
 		Launcher l = new Launcher();
+		plotsFinder = new WalkInfertilePlots();
 		printInstructions();
 		l.findFertileArea();
 	}
@@ -89,7 +91,7 @@ public class Launcher
 
 	private void printContiguousFertileArea()
 	{
-		List<Integer> fertileArea = farm.getListOfFertilePlots();
+		List<Integer> fertileArea = plotsFinder.getListOfFertilePlots(farm);
 		checkAnswer(fertileArea);
 		SortInfertileArea(fertileArea);
 		printSortedAreas(fertileArea);

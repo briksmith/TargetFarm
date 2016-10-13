@@ -63,11 +63,6 @@ public class Farm
 		return listOfFertilePlots;
 	}
 
-	private boolean notCountedAndFertile(FarmPoint farmPoint)
-	{
-		return farmPoint.isFertile() && !farmPoint.isVisited();
-	}
-
 	private int calculateSizeOfFertilePlot(FarmPoint farmPoint)
 	{
 		int plotSize = 0;
