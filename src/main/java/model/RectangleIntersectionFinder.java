@@ -8,8 +8,8 @@ import java.util.TreeSet;
 
 public class RectangleIntersectionFinder
 {
-	public static Set<Point> findAllIntersectionsWithAxisAndRectangles(Farm inFarm){
-		Set<Point> totalPoints = new HashSet<>();
+	public static TreeSet<Point> findAllIntersectionsWithAxisAndRectangles(Farm inFarm){
+		TreeSet<Point> totalPoints = new TreeSet<>();
 		List<Rectangle> rects = inFarm.getInFertileAreas();
 		int i = 0;
 		for ( Rectangle rect1 : rects){

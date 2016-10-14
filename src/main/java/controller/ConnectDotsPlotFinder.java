@@ -2,6 +2,7 @@ package controller;
 
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import model.Farm;
 import model.Point;
@@ -13,7 +14,11 @@ public class ConnectDotsPlotFinder implements InfertilePlotsFinder
 	@Override
 	public List<Integer> getListOfFertilePlots(Farm inFarm)
 	{
-		Set<Point> pointsToConnectDotsFrom = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(inFarm);
+		TreeSet<Point> pointsToConnectDotsFrom = RectangleIntersectionFinder.findAllIntersectionsWithAxisAndRectangles(inFarm);
+		Set<Point> rectangleToDraw;
+		for( Point p : pointsToConnectDotsFrom){
+			
+		}
 		return null;
 	}
 
