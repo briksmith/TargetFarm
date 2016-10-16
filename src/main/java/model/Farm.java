@@ -13,6 +13,8 @@ public class Farm
 	private List<ArrayList<FarmPoint>> parcels;
 
 	private List<Rectangle> inFertileAreas;
+	
+	private Set<Point> inFertileAreaCornerPoints;
 
 	private Set<Point> inFertilePoints;
 	
@@ -153,6 +155,7 @@ public class Farm
 		}
 		inFertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(newInfertileAreas);
 		setParcelsToInfertile(inFertilePoints);
+		setCornerSet(newInfertileAreas);
 
 	}
 
@@ -166,11 +169,8 @@ public class Farm
 				}
 			}
 		}
-		
 	}
 		
-
-
 	private void setPointInParcelInfertile(Point p)
 	{
 		int x = p.getX();
@@ -179,6 +179,15 @@ public class Farm
 		farmPoint.setFertile(false);
 	}
 
+
+	private void setCornerSet(List<Rectangle> newInfertileAreas)
+	{
+		inFertileAreaCornerPoints = new HashSet<>();
+		for ( Rectangle r : newInfertileAreas){
+			inFertileAreaCornerPoints.addAll(r.getRectangleCorners());
+		}
+		
+	}
 
 	public Set<Point> getInFertilePoints()
 	{
@@ -193,6 +202,11 @@ public class Farm
 	public int getColCount()
 	{
 		return colCount;
+	}
+
+	public Set<Point> getInFertileAreaCornerPoints()
+	{
+		return inFertileAreaCornerPoints;
 	}
 
 }

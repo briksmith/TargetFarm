@@ -1,9 +1,40 @@
 package model;
 
-public class Point implements Comparable
+import java.util.Comparator;
+
+public class Point implements Comparable<Object>
 {
 	private int x;
 	private int y;
+	
+	public static class sortPointByYValue implements Comparator<Object> {
+
+		@Override
+		public int compare(Object o1, Object o2)
+		{
+			if ( !(o1 instanceof Point && o2 instanceof Point ) ){
+				return 0;
+			}
+			
+			Point point1 = (Point) o1;
+			Point point2 = (Point) o2;
+			if ( point1.equals(point2)){
+				return 0;
+			}
+			
+			if ( point1.getY() > point2.getY()){
+				return 1;
+			}
+			if ( point1.getY() == point2.getY() ) {
+				if ( point1.getX() > point2.getX() ){
+					return 1;
+				}
+			}
+			
+			return -1;
+		}
+		
+	}
 	
 	public Point(int inX, int inY)
 	{

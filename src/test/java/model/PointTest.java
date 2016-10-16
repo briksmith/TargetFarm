@@ -13,9 +13,11 @@ class foo{
 public class PointTest
 {
 
+	private Point.sortPointByYValue comparable;
+	
 	@Before
 	public void setUp(){
-		
+		comparable = new Point.sortPointByYValue();
 	}
 	
 	@Test
@@ -118,6 +120,48 @@ public class PointTest
 		foo f = new foo();
 		
 		assertTrue("Should get zero for non point object. ", point1.compareTo(f) == 0);
+	}
+	
+	@Test
+	public void testSortPointByYValuePoint1GreaterDueToYValue() {
+		Point point1 = new Point(1,3);
+		Point point2 = new Point(2,2);
+		assertTrue("Comparable should have returned 1 and did not. ", comparable.compare(point1, point2) == 1);
+	}
+	
+	@Test
+	public void testSortPointByYValuePoint1GreaterDueToXValue() {
+		Point point1 = new Point(2,3);
+		Point point2 = new Point(1,3);
+		assertTrue("Comparable should have returned 1 and did not. ", comparable.compare(point1, point2) == 1);
+	}
+	
+	@Test
+	public void testSortPointByYValuePoint1LesserDueToYValue() {
+		Point point1 = new Point(2,2);
+		Point point2 = new Point(1,3);
+		assertTrue("Comparable should have returned 1 and did not. ", comparable.compare(point1, point2) == -1);
+	}
+	
+	@Test
+	public void testSortPointByYValuePoint1LesserDueToXValue() {
+		Point point1 = new Point(1,3);
+		Point point2 = new Point(2,3);
+		assertTrue("Comparable should have returned 1 and did not. ", comparable.compare(point1, point2) == -1);
+	}
+	
+	@Test
+	public void testSortPointByYValuePoint1EqualToPoint2() {
+		Point point1 = new Point(1,1);
+		Point point2 = new Point(1,1);
+		assertTrue("Comparable should have returned 1 and did not. ", comparable.compare(point1, point2) == 0);
+	}
+	
+	@Test
+	public void testSortPointByYValueReturns0ForNotAPoint() {
+		Point point1 = new Point(1,3);
+		Object obj = new Object();
+		assertTrue("Comparable should have returned 1 and did not. ", comparable.compare(point1, obj) == 0);
 	}
 	
 	

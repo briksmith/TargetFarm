@@ -2,6 +2,10 @@ package controller;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Before;
@@ -12,14 +16,28 @@ import static org.mockito.Mockito.when;
 
 import model.Farm;
 import model.Point;
+import model.Rectangle;
 
 public class FindPointsToDrawTest
 {
 	
+	private static final int ROW_COUNT = 20;
+
+	private static final int COL_COUNT = 20;
+
 	private TreeSet<Point> points;
 	
 	private static final int X = 20;
 	private static final int Y = 20;
+	
+	private final Rectangle SixFour11_7 = new Rectangle(6,4,11,7);
+	private final Rectangle Four9_9_13 = new Rectangle(4,9,9,13);
+	private final Rectangle Seven_12_12_15 = new Rectangle(7,12,12,15);
+	private final Rectangle Thirteen_8_16_11 = new Rectangle(13,8,16,11);
+	private final Rectangle Fifteen6_18_9 = new Rectangle(15,6,18,9);
+	
+	private List<Rectangle> rects;
+	private Set<Point> rectangleCorners;
 	
 	@Mock
 	Farm farm;
@@ -29,53 +47,76 @@ public class FindPointsToDrawTest
 		MockitoAnnotations.initMocks(this);
 		
 		points = new TreeSet<>();
-		points.add(new Point(0,0));
-		points.add(new Point(4,0));
-		points.add(new Point(6,4));
-		points.add(new Point(11,4));
-		points.add(new Point(11,7));
-		points.add(new Point(6,7));
-		points.add(new Point(6,9));
-		points.add(new Point(9,9));
-		points.add(new Point(7,12));
-		points.add(new Point(9,12));
-		points.add(new Point(12,12));
-		points.add(new Point(4,9));
-		points.add(new Point(0,9));
-		points.add(new Point(0,13));
-		points.add(new Point(4,13));
-		points.add(new Point(4,19));
-		points.add(new Point(7,12));
-		points.add(new Point(7,15));
-		points.add(new Point(9,13));
-		points.add(new Point(12,15));
-		points.add(new Point(12,0));
-		points.add(new Point(19,12));
-		points.add(new Point(19,15));
-		points.add(new Point(12,19));
+		rects = new ArrayList<>();
 		
-		points.add(new Point(13,8));
-		points.add(new Point(13,11));
-		points.add(new Point(16,11));
-		points.add(new Point(16,8));
+		rects.add(SixFour11_7);
+		rects.add(Four9_9_13);
+		rects.add(Seven_12_12_15);
+		rects.add(Thirteen_8_16_11);
+		rects.add(Fifteen6_18_9);
 		
-		points.add(new Point(15,6));
-		points.add(new Point(15,9));
-		points.add(new Point(18,9));
-		points.add(new Point(18,6));
-		
-		points.add(new Point(15,8));
-		points.add(new Point(16,9));
+		addRectsVerticesToSet(points, rects);
+		addExpectedAxisIntersectionPoints(points);
+		addExpectedIntersectionOfRectanglesPoints(points);
+		createRectangleCornerSet(rects);
 		
 	}
 	
+	private void createRectangleCornerSet(List<Rectangle> rects2)
+	{
+		rectangleCorners = new HashSet<>();
+		for ( Rectangle r : rects){
+			rectangleCorners.addAll(r.getRectangleCorners());
+		}
+		
+	}
+
+	private void addRectsVerticesToSet(TreeSet<Point> points2, List<Rectangle> rects2)
+	{
+		for ( Rectangle r : rects2){
+			Set<Point> corners = r.getRectangleCorners();
+			points2.addAll(corners);
+		}
+	}
+
+	private void addExpectedAxisIntersectionPoints(TreeSet<Point> inPoints)
+	{
+		inPoints.add(new Point(0,0));
+		inPoints.add(new Point(6,4));
+		inPoints.add(new Point(0,4));
+		inPoints.add(new Point(0,13));
+		inPoints.add(new Point(4,13));
+		inPoints.add(new Point(4,19));
+		inPoints.add(new Point(19,6));
+		inPoints.add(new Point(19,9));
+		
+	}
+
+	private void addExpectedIntersectionOfRectanglesPoints(TreeSet<Point> inPoints)
+	{
+		 inPoints.add(new Point(7,12));
+		 inPoints.add(new Point(9,13));
+		 inPoints.add(new Point(15,8));
+		 inPoints.add(new Point(16,9));
+	}
+
 	@Test
 	public void testFindNextUpPointAbove(){
 		Point start = new Point(6,4);
 		Point expected = new Point(6,7);
-		Point actual;
-		actual = FindPointsToDraw.findHigherPoint(start, points, farm);
+		setInfertileAreasAndPoints();
+		when(farm.getColCount()).thenReturn(COL_COUNT);
+		when(farm.getRowCount()).thenReturn(ROW_COUNT);
+		when(farm.getInFertileAreaCornerPoints()).thenReturn(rectangleCorners);
+		Point actual = FindPointsToDraw.findHigherPoint(start, points, farm);
 		assertTrue(pointFindingErrorMessage(expected, actual), expected.equals(actual));
+	}
+
+	private void setInfertileAreasAndPoints()
+	{
+		Set<Point> infertilePoints = Rectangle.getSetOfInfertilePointsForListOfRects(rects);
+		farm.setInfertileAreas(rects);
+		when(farm.getInFertilePoints()).thenReturn(infertilePoints);
 	}
 
 	private String pointFindingErrorMessage(Point expected, Point actual)
@@ -87,6 +128,7 @@ public class FindPointsToDrawTest
 	public void testFindNextUpPointAboveAndRight() {
 		Point start = new Point(4,13);
 		Point expected = new Point(7,15);
+		setInfertileAreasAndPoints();
 		Point actual = FindPointsToDraw.findHigherPoint(start, points, farm);
 		assertTrue(pointFindingErrorMessage(expected, actual), expected.equals(actual));
 	}
@@ -95,6 +137,7 @@ public class FindPointsToDrawTest
 	public void testFindNextUpPointAboveRightAndOtherPointDirectlyAbove() {
 		Point start = new Point(4,9);
 		Point expected = new Point(7,12);
+		setInfertileAreasAndPoints();
 		Point actual = FindPointsToDraw.findHigherPoint(start,points, farm);
 		assertTrue(pointFindingErrorMessage(expected,actual), expected.equals(actual));
 	}
@@ -103,6 +146,7 @@ public class FindPointsToDrawTest
 	public void testFindNextUpPointAboveAndLeft() {
 		Point start = new Point(18,6);
 		Point expected = new Point(18,8);
+		setInfertileAreasAndPoints();
 		Point actual = FindPointsToDraw.findHigherPoint(start, points, farm);
 		assertTrue(pointFindingErrorMessage(expected,actual), expected.equals(actual));
 	}
@@ -111,6 +155,7 @@ public class FindPointsToDrawTest
 	public void testFindNextUpAxis() {
 		Point start = new Point(7,15);
 		Point expected = new Point(7, X);
+		setInfertileAreasAndPoints();
 		when(farm.getColCount()).thenReturn(Y);
 		Point actual = FindPointsToDraw.findHigherPoint(start, points, farm);
 		assertTrue(pointFindingErrorMessage(expected, actual), expected.equals(actual));
@@ -120,6 +165,7 @@ public class FindPointsToDrawTest
 	public void testFindNextUpAboveInBetween() {
 		Point start = new Point(6,7);
 		Point expected = new Point(7,9);
+		setInfertileAreasAndPoints();
 		Point actual = FindPointsToDraw.findHigherPoint(start, points, farm);
 		assertTrue(pointFindingErrorMessage(expected,actual), expected.equals(actual));
 	}
