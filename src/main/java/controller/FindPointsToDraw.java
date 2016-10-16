@@ -58,11 +58,21 @@ public class FindPointsToDraw
 	{
 		Set<Point> rectangleCorners = inFarm.getInFertileAreaCornerPoints();
 		Point nextPoint = getNextYPoint(inPoint, inFarm);
-		while (!rectangleCorners.contains(nextPoint) && !nextPoint.equals(errorPoint))
+		while (isNotACornerPoint(rectangleCorners, nextPoint) && isNotAnErrorPoint(nextPoint))
 		{
 			nextPoint = getNextYPoint(nextPoint, inFarm);
 		}
 		return nextPoint;
+	}
+
+	private static boolean isNotACornerPoint(Set<Point> rectangleCorners, Point nextPoint)
+	{
+		return !rectangleCorners.contains(nextPoint);
+	}
+
+	private static boolean isNotAnErrorPoint(Point nextPoint)
+	{
+		return !nextPoint.equals(errorPoint);
 	}
 
 	private static Point findNextCornerOrIntersectingEdge(Point inPoint, Farm inFarm)
@@ -85,7 +95,7 @@ public class FindPointsToDraw
 				pointToReturn = inPoint;
 			}
 			
-		}while(!rectangleCorners.contains(inPoint) && !inPoint.equals(errorPoint));
+		}while(isNotACornerPoint(rectangleCorners, inPoint) && isNotAnErrorPoint(inPoint));
 		return pointToReturn;
 	}
 
