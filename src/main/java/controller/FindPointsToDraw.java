@@ -77,31 +77,50 @@ public class FindPointsToDraw
 
 	private static Point findNextCornerOrIntersectingEdge(Point inPoint, Farm inFarm)
 	{
-		Set<Point> rectangleCorners = inFarm.getInFertileAreaCornerPoints();
-		Point nextPoint = new Point(inPoint);
-		Point pointToReturn = errorPoint;
+		Point pointToReturn = new Point (inPoint);
+		Point pointToWalk = errorPoint;
 		do{
-			pointToReturn = walkTowardsOriginPoint(nextPoint, inFarm);
-			if( rectangleCorners.contains(pointToReturn)){
-				inPoint = pointToReturn;
+			pointToReturn = getNextYPoint(pointToReturn, inFarm);
+			pointToWalk = getCornerOrEdgeBeforeTheYAxis(pointToReturn, inFarm);
+			if (!pointToWalk.equals(errorPoint)){
+				break;
 			}
-			pointToReturn = nextPoint;
-			pointToReturn = walkToFarRightLookingForCorner(nextPoint, inFarm);
-			if ( rectangleCorners.contains(pointToReturn)){
-				inPoint = pointToReturn;
+			pointToWalk = pointToReturn;
+			pointToWalk = walkToFarRight(pointToReturn, inFarm);
+			pointToWalk = getCornerOrEdgeBeforeFarRight(pointToReturn, inFarm);
+			if ( !pointToWalk.equals(errorPoint)){
+				break;
 			}
-			inPoint = getNextYPoint(inPoint, inFarm);
-			if ( inFarm.getInFertilePoints().contains(inPoint)){
-				pointToReturn = inPoint;
+			if ( inFarm.getInFertilePoints().contains(pointToReturn)){
+				pointToWalk = pointToReturn;
+				break;
+			}
+			pointToWalk = pointToReturn;
+			if ( pointToWalk.getY() >= inFarm.getColCount()){
+				break;
 			}
 			
-		}while(isNotACornerPoint(rectangleCorners, inPoint) && isNotAnErrorPoint(inPoint));
+		}while(true);
 		return pointToReturn;
 	}
 
 	
 
-	private static Point walkTowardsOriginPoint(Point inPoint, Farm inFarm)
+	private static Point getCornerOrEdgeBeforeTheYAxis(Point nextPoint, Farm inFarm)
+	{
+		Point pointToReturn = new Point(nextPoint);
+		Set<Point> rectangleCorners = inFarm.getInFertileAreaCornerPoints();
+		
+		while (  pointToReturn.getX() >= 0 ) {
+			if ( rectangleCorners.contains(pointToReturn)){
+				return pointToReturn;
+			}
+			pointToReturn = walkTowardsYAxis(pointToReturn, inFarm);
+		}
+		return errorPoint;
+	}
+
+	private static Point walkTowardsYAxis(Point inPoint, Farm inFarm)
 	{
 		int curX = inPoint.getX();
 		if ( curX > 0){
@@ -111,7 +130,20 @@ public class FindPointsToDraw
 		}
 	}
 
-	private static Point walkToFarRightLookingForCorner(Point inPoint, Farm inFarm)
+	private static Point getCornerOrEdgeBeforeFarRight(Point nextPoint, Farm inFarm){
+		Point pointToReturn = new Point(nextPoint);
+		Set<Point> rectangleCorners = inFarm.getInFertileAreaCornerPoints();
+		
+		while ( pointToReturn.getX() < inFarm.getColCount()){
+			if ( rectangleCorners.contains(pointToReturn)) {
+				return pointToReturn;
+			}
+			pointToReturn = walkToFarRight(pointToReturn, inFarm);
+		}
+		return errorPoint;
+	}
+	
+	private static Point walkToFarRight(Point inPoint, Farm inFarm)
 	{
 		int curX = inPoint.getX();
 		if ( curX < inFarm.getRowCount() ){
