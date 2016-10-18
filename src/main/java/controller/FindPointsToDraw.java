@@ -57,12 +57,23 @@ public class FindPointsToDraw
 	private static Point walkEdgeUntilCornerFound(Point inPoint, Farm inFarm)
 	{
 		Set<Point> rectangleCorners = inFarm.getInFertileAreaCornerPoints();
-		Point nextPoint = getNextYPoint(inPoint, inFarm);
-		while (isNotACornerPoint(rectangleCorners, nextPoint) && isNotAnErrorPoint(nextPoint))
+		Point pointToReturn = getNextYPoint(inPoint, inFarm);
+		Point pointToWalk = new Point(pointToReturn);
+		while (isNotACornerPoint(rectangleCorners, pointToReturn) && isNotAnErrorPoint(pointToReturn))
 		{
-			nextPoint = getNextYPoint(nextPoint, inFarm);
+			pointToWalk = getCornerOrEdgeBeforeTheYAxis(pointToReturn, inFarm);
+			if (!pointToWalk.equals(errorPoint)){
+				break;
+			}
+			pointToWalk = pointToReturn;
+			pointToWalk = walkToFarRight(pointToReturn, inFarm);
+			pointToWalk = getCornerOrEdgeBeforeFarRight(pointToReturn, inFarm);
+			if ( !pointToWalk.equals(errorPoint)){
+				break;
+			}
+			pointToReturn = getNextYPoint(pointToReturn, inFarm);
 		}
-		return nextPoint;
+		return pointToReturn;
 	}
 
 	private static boolean isNotACornerPoint(Set<Point> rectangleCorners, Point nextPoint)
